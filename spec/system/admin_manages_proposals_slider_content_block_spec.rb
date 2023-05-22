@@ -29,11 +29,15 @@ describe "Admin manages proposals slider content blocks", type: :system do
 
         check "Activate filters"
 
-        #TODO: Add a test for the component selector
+        select proposals_component.name[I18n.locale], from: "Linked component"
 
         click_button "Update"
+
+        expect(content_block.reload.settings.activate_filters).to eq(true)
+        expect(content_block.reload.settings.linked_component).to eq(proposals_component)
+
         visit decidim.root_path
-        expect(page).to have_content("Custom welcome text!")
+        expect(page).to have_content("Explore proposals")
       end
     end
   end
