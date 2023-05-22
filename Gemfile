@@ -16,7 +16,7 @@ gem "puma", ">= 4.3"
 
 group :development, :test do
   gem "byebug", "~> 11.0", platform: :mri
-
+  gem "rubocop-faker", "~> 1.1"
   gem "decidim-dev", "~> #{DECIDIM_VERSION}"
 end
 
