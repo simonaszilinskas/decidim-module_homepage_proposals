@@ -1,0 +1,6 @@
+---
+en:
+  decidim:
+    components:
+      homepage_proposals:
+        name: HomepageProposals
