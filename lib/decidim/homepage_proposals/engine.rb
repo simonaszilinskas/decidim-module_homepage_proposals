@@ -24,7 +24,6 @@ module Decidim
         Cell::ViewModel.view_paths << File.expand_path("#{Decidim::HomepageProposals::Engine.root}/app/views") # for proposal partials
       end
 
-
       initializer "decidim_homepage_proposals.content_blocks" do
         Decidim.content_blocks.register(:homepage, :proposals_slider) do |content_block|
           content_block.cell = "decidim/homepage_proposals/content_blocks/proposals_slider"
@@ -32,6 +31,5 @@ module Decidim
         end
       end
     end
-
   end
 end
