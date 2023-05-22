@@ -1,10 +1,14 @@
 # frozen_string_literal: true
 
 source "https://rubygems.org"
+base_path = File.basename(__dir__) == "development_app" ? "../" : ""
+require_relative "#{base_path}lib/decidim/homepage_proposals/version"
+
+DECIDIM_VERSION = Decidim::HomepageProposals.decidim_version
 
 ruby RUBY_VERSION
 
-gem "decidim", git: "https://github.com/decidim/decidim"
+gem "decidim", "~> #{DECIDIM_VERSION}"
 gem "decidim-homepage_proposals", path: "."
 
 gem "bootsnap", "~> 1.4"
@@ -13,7 +17,7 @@ gem "puma", ">= 4.3"
 group :development, :test do
   gem "byebug", "~> 11.0", platform: :mri
 
-  gem "decidim-dev", git: "https://github.com/decidim/decidim"
+  gem "decidim-dev", "~> #{DECIDIM_VERSION}"
 end
 
 group :development do
