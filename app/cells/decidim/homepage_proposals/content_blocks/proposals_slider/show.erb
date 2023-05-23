@@ -1,1 +1,64 @@
-EXPLORE PROPOSALS
+<head>
+  <!-- Include Slick Carousel CSS -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+
+  <!-- Include Slick Carousel Advanced CSS -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
+
+  <!-- Include Slick Carousel JS -->
+  <script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+</head>
+
+<div class="row" id="proposals-at-a-glance">
+  <h2>Proposals at a Glance</h2>
+  <div class="row collapse">
+    <div class="row small-up-1 smallmedium-up-2 mediumlarge-up-3 large-up-4 card-grid carousel">
+      <% proposals.each do |proposal| %>
+        <%# Clicking on the proposal redirects to it %>
+        <%= link_to proposal_path(proposal) do %>
+            <div class="column">
+              <div class="card card--process card--stack">
+                <div class="card-section">
+                  <h3><%= proposal_title(proposal) %></h3>
+                  <p><%= proposal_description(proposal) %></p>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        <% end %>
+    </div>
+  </div>
+</div>
+
+<script>
+    $(document).ready(function(){
+        // Initialize the Slick Carousel
+        $('.carousel').slick({
+            slidesToShow: 4, // Number of slides to show at a time
+            slidesToScroll: 1, // Number of slides to scroll
+            autoplay: true, // Autoplay the carousel
+            autoplaySpeed: 1500, // Autoplay speed in milliseconds
+            dots: true,
+            responsive: [
+                {
+                    breakpoint: 1024, // Medium screens and above
+                    settings: {
+                        slidesToShow: 3
+                    }
+                },
+                {
+                    breakpoint: 768, // Small screens
+                    settings: {
+                        slidesToShow: 2
+                    }
+                },
+                {
+                    breakpoint: 480, // Extra small screens
+                    settings: {
+                        slidesToShow: 1
+                    }
+                }
+            ]
+        });
+    });
+</script>

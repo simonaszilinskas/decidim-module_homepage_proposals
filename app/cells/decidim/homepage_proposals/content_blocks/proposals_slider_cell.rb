@@ -31,6 +31,22 @@ module Decidim
         def linked_components
           @linked_components ||= Decidim::Component.where(id: content_block_settings.linkeds_component_id.reject(&:blank?).map(&:to_i))
         end
+
+        def proposals
+          @proposals ||= Decidim::Proposals::Proposal.published.limit(12)
+        end
+
+        def proposal_title(proposal)
+          translated_attribute(proposal.title)
+        end
+
+        def proposal_description(proposal)
+          translated_attribute(proposal.body)
+        end
+
+        def proposal_path(proposal)
+          Decidim::ResourceLocatorPresenter.new(proposal).path
+        end
       end
     end
   end
