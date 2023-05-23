@@ -9,24 +9,32 @@
   <script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 </head>
 
-<div class="row" id="proposals-at-a-glance">
-  <h2>Proposals at a Glance</h2>
-  <div class="row collapse">
-    <div class="row small-up-1 smallmedium-up-2 mediumlarge-up-3 large-up-4 card-grid carousel">
-      <% proposals.each do |proposal| %>
-        <%# Clicking on the proposal redirects to it %>
+<div class="row collapse">
+  <div class="row small-up-1 medium-up-2 large-up-3 card-grid carousel margin-top-3">
+    <% proposals.each do |proposal| %>
+      <div class="column">
+        <div class="card card--proposal card--stack">
         <%= link_to proposal_path(proposal) do %>
-            <div class="column">
-              <div class="card card--process card--stack">
-                <div class="card-section">
-                  <h3><%= proposal_title(proposal) %></h3>
-                  <p><%= proposal_description(proposal) %></p>
-                </div>
-              </div>
-            </div>
-          <% end %>
+          <div class="card--header">
+            <img src="<%= image_pack_url("media/images/slider_proposal_image.jpeg") %>" alt="slider_img">
+          </div>
         <% end %>
-    </div>
+          <div class="card--content text-center margin-top-1">
+            <%= link_to proposal_path(proposal) do %>
+              <h3 class="card__title"><%= proposal_title(proposal)  %></h3>
+            <% end %>
+            <div class="tech-info tech-info--text-center">
+              <p><%= proposal_description(proposal) %></p>
+            </div>
+            <%= link_to proposal_path(proposal) do %>
+              <div class="card__button align-bottom">
+                <span class="button button--secondary"><%= t("decidim.homepage_proposals.proposal_at_a_glance.learn_more") %></span>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    <% end %>
   </div>
 </div>
 

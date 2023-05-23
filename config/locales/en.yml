@@ -1,11 +1,13 @@
 ---
 en:
   decidim:
+    components:
+      homepage_proposals:
+        name: HomepageProposals
     homepage_proposals:
       content_blocks:
         proposals_slider_cell:
           rb:
             name: Proposals slider
-    components:
-      homepage_proposals:
-        name: HomepageProposals
+      proposal_at_a_glance:
+        learn_more: Learn more

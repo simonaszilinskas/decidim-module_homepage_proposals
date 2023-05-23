@@ -27,4 +27,8 @@ $(document).ready(function(){
             }
         ]
     });
+
+    $('.carousel .slick-next, .carousel .slick-prev').click(function() {
+        $('.carousel').slick('slickPlay'); // Restart autoplay
+    });
 });
