@@ -29,11 +29,7 @@ module Decidim
         end
 
         def linked_components
-          @linked_components ||= Decidim::Component.where(id: content_block_settings.linkeds_component_id.reject(&:blank?).map(&:to_i))
-        end
-
-        def proposals
-          @proposals ||= Decidim::Proposals::Proposal.published.limit(12)
+          @linked_components ||= Decidim::Component.where(id: content_block_settings.linked_components_id.reject(&:blank?).map(&:to_i))
         end
 
         def proposal_title(proposal)
