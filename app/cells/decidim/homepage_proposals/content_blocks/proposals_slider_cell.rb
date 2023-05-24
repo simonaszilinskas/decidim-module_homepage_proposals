@@ -29,7 +29,19 @@ module Decidim
         end
 
         def linked_components
-          @linked_components ||= Decidim::Component.where(id: content_block_settings.linkeds_component_id.reject(&:blank?).map(&:to_i))
+          @linked_components ||= Decidim::Component.where(id: content_block_settings.linked_components_id.reject(&:blank?).map(&:to_i))
+        end
+
+        def proposal_title(proposal)
+          translated_attribute(proposal.title)
+        end
+
+        def proposal_description(proposal)
+          translated_attribute(proposal.body)
+        end
+
+        def proposal_path(proposal)
+          Decidim::ResourceLocatorPresenter.new(proposal).path
         end
       end
     end

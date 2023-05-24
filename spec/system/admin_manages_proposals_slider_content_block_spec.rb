@@ -52,7 +52,7 @@ describe "Admin manages proposals slider content blocks", type: :system do
 
         visit decidim.root_path
 
-        expect(page).to have_content("EXPLORE PROPOSALS")
+        expect(page).to have_content("PROPOSALS AT A GLANCE")
       end
     end
   end
