@@ -1,7 +1,8 @@
 $(document).ready(function(){
     // Initialize the Slick Carousel
-    if ($('.carousel').length > 0) {
-        $('.carousel').slick({
+    let carousel = $('.carousel')
+    if (carousel.length > 0) {
+        carousel.slick({
             slidesToShow: 4, // Number of slides to show at a time
             slidesToScroll: 1, // Number of slides to scroll
             autoplay: true, // Autoplay the carousel
