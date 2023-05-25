@@ -6,9 +6,7 @@ en:
         proposals_slider:
           learn_more: Learn more
           name: Proposals slider
-          title: Explore proposals
       proposal_at_a_glance:
-        learn_more: Learn more
         title: Explore proposals
       proposals_slider_settings_form:
         activate_filters: Activate filters
