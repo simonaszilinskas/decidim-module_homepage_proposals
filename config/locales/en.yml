@@ -1,14 +1,16 @@
 ---
 en:
   decidim:
-    components:
-      homepage_proposals:
-        name: HomepageProposals
     homepage_proposals:
       content_blocks:
-        proposals_slider_cell:
-          rb:
-            name: Proposals slider
+        proposals_slider:
+          learn_more: Learn more
+          name: Proposals slider
+          title: Explore proposals
       proposal_at_a_glance:
         learn_more: Learn more
-        title: Proposals at a Glance
+        title: Explore proposals
+      proposals_slider_settings_form:
+        activate_filters: Activate filters
+        default_linked component: Component displayed by default
+        linked_components_id: Components available in filters

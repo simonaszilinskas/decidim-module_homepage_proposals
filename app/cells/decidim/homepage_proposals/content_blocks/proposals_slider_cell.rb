@@ -6,6 +6,7 @@ module Decidim
   module HomepageProposals
     module ContentBlocks
       class ProposalsSliderCell < Decidim::ViewModel
+        include Cell::ViewModel::Partial
         def glanced_proposals(category: nil, component: nil, scope: nil)
           return Decidim::Proposals::Proposal.where(component: content_block_settings.default_linked_component).sample(12) unless content_block_settings.activate_filters
 
