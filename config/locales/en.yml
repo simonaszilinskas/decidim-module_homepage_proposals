@@ -7,18 +7,22 @@ en:
     homepage_proposals:
       content_blocks:
         proposals_slider:
+          loading: Loading...
           search: Search
         proposals_slider_cell:
           rb:
             name: Proposals slider
       proposal_at_a_glance:
         filters:
-
           categories: Categories
+          clear_filters: Clear filters
           components: Components
           default_categories: All categories
           default_components: All components
           default_scope: All scopes
           scope: Scope
         learn_more: Learn more
+        no_proposals:
+          title: No proposals
+          description: There are no proposals that match the selected filters.
         title: Proposals at a Glance
