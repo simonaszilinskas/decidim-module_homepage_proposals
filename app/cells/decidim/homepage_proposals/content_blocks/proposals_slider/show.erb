@@ -10,7 +10,7 @@
         <p class="loading"><%= t(".loading") %></p>
           <div id="proposals-at-a-glance" class="row small-up-1 medium-up-2 large-up-3 card-grid carousel margin-top-3">
             <% if glanced_proposals.present? %>
-              <%= render partial: 'decidim/shared/homepage_proposals/slider_proposals', locals: { glanced_proposals: glanced_proposals} %>
+              <%= refresh_proposals %>
             <% else %>
               <div class="column">
                 <div class="card card--empty">

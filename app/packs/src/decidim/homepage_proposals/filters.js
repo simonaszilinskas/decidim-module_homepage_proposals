@@ -31,7 +31,7 @@ jQuery(() => {
         const $proposalsSliderContent = $('#proposals-at-a-glance');
 
         $.ajax({
-            url: 'proposals_slider/refresh_proposals', // Use the new route
+            url: '/proposals_slider/refresh_proposals', // Use the new route
             method: 'GET',
             success: function(response) {
                 $proposalsSliderContent.html(response);

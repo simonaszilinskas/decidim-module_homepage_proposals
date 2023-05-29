@@ -13,7 +13,6 @@ module Decidim
         include Decidim::FilterResource
 
         def glanced_proposals(category: nil, component: nil, scope: nil)
-
           if params[:filter].present?
             category = Decidim::Category.find(params[:filter][:category_id]) if params[:filter][:category_id].present?
 
@@ -36,8 +35,7 @@ module Decidim
         end
 
         def refresh_proposals
-          byebug
-          render partial: 'decidim/shared/homepage_proposals/slider_proposals', locals: { glanced_proposals: glanced_proposals}
+          render partial: "decidim/shared/homepage_proposals/slider_proposals", locals: { glanced_proposals: glanced_proposals }
         end
 
         private
@@ -93,7 +91,7 @@ module Decidim
         end
 
         def scopes_filter
-          @locations_filter ||= Decidim::Scope.where(id: Decidim::Proposals::Proposal.where(component: linked_components).pluck(:id).uniq)
+          @scopes_filter ||= Decidim::Scope.where(id: Decidim::Proposals::Proposal.where(component: linked_components).pluck(:id).uniq)
         end
 
         def components_filter
