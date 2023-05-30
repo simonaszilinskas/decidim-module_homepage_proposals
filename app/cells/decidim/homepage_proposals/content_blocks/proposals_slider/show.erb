@@ -3,9 +3,6 @@
     <div class="row collapse">
       <h3 class="section-heading"><%= t("decidim.homepage_proposals.proposal_at_a_glance.title") %></h3>
       <div class="glide margin-top-3">
-        <div id="prev">
-          <%= icon "chevron-left", class: "icon--large" %>
-        </div>
         <div class="glide__track row small-12 column" data-glide-el="track">
           <ul class="glide__slides">
             <% glanced_proposals.each do |proposal| %>
@@ -15,8 +12,16 @@
             <% end %>
           </ul>
         </div>
-        <div id="next">
-          <%= icon "chevron-right", class: "icon--large" %>
+        <div class="glide__bullets" data-glide-el="controls[nav]">
+          <div class="glide__bullet" data-glide-dir="<">
+            <%= icon "chevron-left", class: "icon--large" %>
+          </div>
+          <% glanced_proposals.count.times do |n| %>
+            <div class="glide__bullet" data-glide-dir="=<%= n %>"> <%= icon "circle-x" %> </div>
+          <% end %>
+          <div class="glide__bullet" data-glide-dir=">">
+            <%= icon "chevron-right", class: "icon--large" %>
+          </div>
         </div>
       </div>
     </div>

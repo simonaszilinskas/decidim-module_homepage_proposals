@@ -19,23 +19,11 @@ $(document).ready(function(){
             }
         },
         perTouch: 1
+    }).mount();
+
+    glide.on("run", function(){
+        let bulletNumber = glide.index;
+        $($(".glide__bullets").children()).css("color", "lightgrey");
+        $($(".glide__bullets").children().get(bulletNumber+1)).css("color", "grey");
     });
-
-    var nextButton = document.querySelector('#next');
-    var prevButton = document.querySelector('#prev');
-
-    nextButton.addEventListener('click', function (event) {
-        event.preventDefault();
-
-        glide.go('>');
-    })
-
-    prevButton.addEventListener('click', function (event) {
-        event.preventDefault();
-
-        glide.go('<');
-    })
-
-    glide.mount();
-
 });

@@ -1,10 +1,24 @@
 @import "@glidejs/glide/src/assets/sass/glide.core";
 
-.glide {
-  display: inline-flex;
-  align-items: center;
-}
-
 .card__text--paragraph {
   height: 150px;
+}
+
+.glide__bullets {
+  display: flex;
+  justify-content: center;
+}
+
+.glide__bullet {
+  margin-right: 0.5vw;
+  margin-left: 0.5vw;
+  color: lightgrey
+}
+
+.glide__bullet:nth-of-type(2) {
+  color:grey;
+}
+
+.glide__bullet:hover {
+  color: grey;
 }
