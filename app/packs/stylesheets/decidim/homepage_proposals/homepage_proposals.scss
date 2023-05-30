@@ -7,12 +7,13 @@
 .glide__bullets {
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 
 .glide__bullet {
   margin-right: 0.5vw;
   margin-left: 0.5vw;
-  color: lightgrey
+  color: lightgrey;
 }
 
 .glide__bullet:nth-of-type(2) {
