@@ -1,20 +1,26 @@
 <% if glanced_proposals.present? %>
-  <head>
-    <!-- Include Slick Carousel JS -->
-    <script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
-  </head>
-
   <section class="wrapper-home home-section" xmlns="http://www.w3.org/1999/xhtml">
     <div class="row collapse">
       <h3 class="section-heading"><%= t("decidim.homepage_proposals.proposal_at_a_glance.title") %></h3>
-      <div class="row small-up-1 medium-up-2 large-up-3 card-grid carousel margin-top-3">
-        <% glanced_proposals.each do |proposal| %>
-          <%= render partial: "decidim/homepage_proposals/proposal_at_a_glance.html", locals: { proposal: proposal } %>
-        <% end %>
+      <div class="glide margin-top-3">
+        <div id="prev">
+          <%= icon "chevron-left", class: "icon--large" %>
+        </div>
+        <div class="glide__track row small-12 column" data-glide-el="track">
+          <ul class="glide__slides">
+            <% glanced_proposals.each do |proposal| %>
+              <li class="glide__slide">
+                <%= render partial: "decidim/homepage_proposals/proposal_at_a_glance.html", locals: { proposal: proposal } %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+        <div id="next">
+          <%= icon "chevron-right", class: "icon--large" %>
+        </div>
       </div>
     </div>
   </section>
 
   <%= javascript_pack_tag 'decidim_homepage_proposals' %>
-  <%= stylesheet_pack_tag 'decidim_homepage_proposals'%>
 <% end %>

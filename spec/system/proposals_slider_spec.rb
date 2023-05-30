@@ -21,16 +21,14 @@ describe "Homepage proposals slider", type: :system, js: true do
 
   context "when has a default component" do
     let!(:component) { create :proposal_component, organization: organization }
-    let!(:proposals) { create_list :proposal, 12, component: component }
+    let!(:proposals) { create_list :proposal, 12, component: component, skip_injection: true }
     let!(:slider) { create :proposals_slider, organization: organization, settings: { linked_components_id: [component.id], default_linked_component: component.id } }
 
     it "displays the slider but not the filters" do
       visit decidim.root_path
 
-      expect(page).to have_content("Proposals slider")
+      expect(page).to have_content("EXPLORE PROPOSALS")
       expect(page).not_to have_css(".filters")
-    rescue Selenium::WebDriver::Error::UnexpectedAlertOpenError => e
-      puts "Error: #{e}"
     end
 
     context "and filters" do
@@ -39,10 +37,8 @@ describe "Homepage proposals slider", type: :system, js: true do
       it "displays the slider and the filters" do
         visit decidim.root_path
 
-        expect(page).to have_content("Proposals slider")
+        expect(page).to have_content("EXPLORE PROPOSALS")
         expect(page).to have_css(".filters")
-      rescue Selenium::WebDriver::Error::UnexpectedAlertOpenError => e
-        puts "Error: #{e}"
       end
     end
   end

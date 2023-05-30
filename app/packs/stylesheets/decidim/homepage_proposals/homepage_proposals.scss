@@ -1,1 +1,10 @@
-/* css for decidim_homepage_proposals */
+@import "@glidejs/glide/src/assets/sass/glide.core";
+
+.glide {
+  display: inline-flex;
+  align-items: center;
+}
+
+.card__text--paragraph {
+  height: 150px;
+}
