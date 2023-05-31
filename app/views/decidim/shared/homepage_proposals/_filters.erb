@@ -19,13 +19,23 @@
                                include_blank: t("decidim.homepage_proposals.proposal_at_a_glance.filters.default_categories") %>
   </div>
   <div class="columns mediumlarge-4 large-3">
-    <%= form.select :component_id,
-                    options_for_default_component,
-                    legend_title: t("decidim.homepage_proposals.proposal_at_a_glance.filters.components"),
-                    label: false,
-                    selected: filter.component_id,
-                    data: { placeholder: t("decidim.homepage_proposals.proposal_at_a_glance.filters.components") }
-        %>
+    <div class="filters__section">
+      <fieldset class="">
+        <legend class="mini-title"><%= t("decidim.homepage_proposals.proposal_at_a_glance.filters.components") %></legend>
+        <label for="">
+
+          <%= form.select :component_id,
+                          options_for_default_component,
+                          label: false,
+                          selected: filter.component_id,
+                          data: { placeholder: t("decidim.homepage_proposals.proposal_at_a_glance.filters.components") }
+          %>
+        </label>
+
+      </fieldset>
+
+    </div>
+
   </div>
   <%# Small button to clear filters %>
   <div class="columns mediumlarge-12 large-3">

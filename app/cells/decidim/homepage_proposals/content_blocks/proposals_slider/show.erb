@@ -1,31 +1,46 @@
 <% if glanced_proposals.present? %>
+
+  <div class="column">
+
+  </div>
+
   <section class="wrapper-home home-section" xmlns="http://www.w3.org/1999/xhtml">
     <div class="row collapse">
       <h3 class="section-heading"><%= t("decidim.homepage_proposals.proposal_at_a_glance.title") %></h3>
-      <p class="loading"><%= t(".loading") %></p>
-      <div class="glide margin-top-3">
-        <div class="glide__track row small-12 column" data-glide-el="track">
-          <ul class="glide__slides">
-            <% if glanced_proposals.present? %>
-              <%= render partial: "decidim/shared/homepage_proposals/slider_proposals", locals: { glanced_proposals: glanced_proposals } %>
-            <% else %>
-              <% render '_no_proposals' %>
-            <% end %>
-          </ul>
+
+      <div class="">
+        <%= render partial: "decidim/shared/homepage_proposals/filters_small_view" %>
+        <div class="show-for-mediumlarge">
+          <%= render partial: "decidim/shared/homepage_proposals/filters" %>
         </div>
-        <div class="glide__bullets" data-glide-el="controls[nav]">
-          <div class="glide__bullet" data-glide-dir="<">
-            <%= icon "chevron-left", class: "icon--large" %>
+      </div>
+
+      <div id="proposals_slider">
+        <p class="loading"><%= t(".loading") %></p>
+        <div class="glide margin-top-3">
+          <div class="glide__track row small-12 column" data-glide-el="track">
+            <ul class="glide__slides"  id="proposals_glide_items">
+              <% if glanced_proposals.present? %>
+                <%= render partial: "decidim/shared/homepage_proposals/slider_proposals", locals: { glanced_proposals: glanced_proposals } %>
+              <% else %>
+                <% render '_no_proposals' %>
+              <% end %>
+            </ul>
           </div>
-          <% glanced_proposals.count.times do |n| %>
-            <div class="glide__bullet" data-glide-dir="=<%= n %>">
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-circle-fill" viewBox="0 0 16 16">
-                <circle cx="7" cy="7" r="7"/>
-              </svg>
+          <div class="glide__bullets" data-glide-el="controls[nav]">
+            <div class="glide__bullet" data-glide-dir="<">
+              <%= icon "chevron-left", class: "icon--large" %>
             </div>
-          <% end %>
-          <div class="glide__bullet" data-glide-dir=">">
-            <%= icon "chevron-right", class: "icon--large" %>
+            <% glanced_proposals.count.times do |n| %>
+              <div class="glide__bullet" data-glide-dir="=<%= n %>">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-circle-fill" viewBox="0 0 16 16">
+                  <circle cx="7" cy="7" r="7"/>
+                </svg>
+              </div>
+            <% end %>
+            <div class="glide__bullet" data-glide-dir=">">
+              <%= icon "chevron-right", class: "icon--large" %>
+            </div>
           </div>
         </div>
       </div>

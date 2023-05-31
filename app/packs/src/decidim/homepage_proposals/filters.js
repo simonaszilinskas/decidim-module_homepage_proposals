@@ -1,5 +1,4 @@
 import FormFilterComponents from "src/decidim/form_filter.js"
-
 const filterForm = jQuery('#filters-form')
 
 if (filterForm.length) {
@@ -7,14 +6,13 @@ if (filterForm.length) {
 }
 
 jQuery(() => {
-    const $proposalsSlider = jQuery("#proposals-slider");
+    const $proposalsSlider = jQuery("#proposals_slider");
     const $loading = $proposalsSlider.find(".loading");
-    const filterLinksSelector = ".order-by__tabs a"
 
     $loading.hide();
 
     $proposalsSlider.on("change", (event) => {
-        const $processesGridCards = $proposalsSlider.find(".carousel");
+        const $processesGridCards = $proposalsSlider.find(".glide");
         let $target = jQuery(event.target);
 
         if (!$target.is("a")) {
@@ -28,7 +26,7 @@ jQuery(() => {
             window.history.pushState(null, null, $target.attr("href"));
         }
 
-        const $proposalsSliderContent = $('#proposals-at-a-glance');
+        const $proposalsSliderContent = $('#proposals_glide_items');
 
         $.ajax({
             url: '/proposals_slider/refresh_proposals', // Use the new route

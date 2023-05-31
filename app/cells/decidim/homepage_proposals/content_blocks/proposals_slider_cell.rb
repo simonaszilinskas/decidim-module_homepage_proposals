@@ -24,10 +24,10 @@ module Decidim
           end
 
           @glanced_proposals ||= Decidim::Proposals::Proposal.published
-                                                  .where(component: content_block_component)
-                                                  .where(filter_by(:scopes, scopes))
-                                                  .where(filter_by(:category, category))
-                                                  .sample(MAX_PROPOSALS)
+                                                             .where(component: content_block_component)
+                                                             .where(filter_by(:scopes, scopes))
+                                                             .where(filter_by(:category, category))
+                                                             .sample(MAX_PROPOSALS)
         end
 
         private
@@ -36,10 +36,10 @@ module Decidim
           ProposalsSearch
         end
 
-
         def filter_by(name, filter)
           { name => filter } if filter.present?
         end
+
         def filter_scopes(scopes)
           { scope: scopes } if scopes.present?
         end
