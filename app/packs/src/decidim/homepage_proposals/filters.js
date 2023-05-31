@@ -35,12 +35,14 @@ jQuery(() => {
             method: 'GET',
             success: function(response) {
                 $proposalsSliderContent.html(response);
+                console.log(response)
                 $loading.hide();
             },
-            error: function() {
+            error: ((err) => {
                 $loading.hide();
+                console.log(err)
                 console.log('Error refreshing proposals slider');
-            }
+            })
         });
     });
 
