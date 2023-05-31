@@ -1,34 +1,69 @@
 # frozen_string_literal: true
 
-# frozen_string literal: true
-
 module Decidim
   module HomepageProposals
     module ContentBlocks
       class ProposalsSliderCell < Decidim::ViewModel
         include Cell::ViewModel::Partial
+        include Core::Engine.routes.url_helpers
+        include Decidim::CardHelper
+        include Decidim::IconHelper
+        include ActionView::Helpers::FormOptionsHelper
+        include Decidim::FiltersHelper
+        include Decidim::FilterResource
         include Decidim::LayoutHelper
-        def glanced_proposals(category: nil, component: nil, scope: nil)
-          return Decidim::Proposals::Proposal.where(component: content_block_settings.default_linked_component).sample(12) unless content_block_settings.activate_filters
 
-          proposals = if component.present?
-                        Decidim::Proposals::Proposal.where(component: component)
-                      else
-                        Decidim::Proposals::Proposal.where(component: content_block_settings.default_linked_component)
-                      end
+        MAX_PROPOSALS = 12
 
-          proposals = proposals.where(scope: scope) if scope.present?
-          proposals = proposals.select { |p| p.category == category } if category.present?
-          proposals.sample(12)
+        def glanced_proposals
+          return default_proposals unless content_block_settings.activate_filters
+
+          if params[:filter].present?
+            category = Decidim::Category.find(params[:filter][:category_id]) if params[:filter][:category_id].present?
+            scopes = Decidim::Scope.find(params[:filter][:scope_id]) if params[:filter][:scope_id].present?
+          end
+
+          @glanced_proposals ||= Decidim::Proposals::Proposal.published
+                                                  .where(component: content_block_component)
+                                                  .where(filter_by(:scopes, scopes))
+                                                  .where(filter_by(:category, category))
+                                                  .sample(MAX_PROPOSALS)
         end
 
         private
+
+        def search_klass
+          ProposalsSearch
+        end
+
+
+        def filter_by(name, filter)
+          { name => filter } if filter.present?
+        end
+        def filter_scopes(scopes)
+          { scope: scopes } if scopes.present?
+        end
+
+        def filter_category(category)
+          { category: category } if category.present?
+        end
 
         def content_block_settings
           @content_block_settings ||= Decidim::ContentBlock.find_by(
             manifest_name: "proposals_slider",
             organization: current_organization
           ).settings
+        end
+
+        def options_for_default_component
+          components = Decidim::Component.where(id: content_block_settings.linked_components_id.reject(&:blank?).map(&:to_i))
+          options = components.map do |component|
+            ["#{translated_attribute(component.name)} (#{translated_attribute(component.participatory_space.title)})", component.id]
+          end
+
+          return options_for_select(options, selected: params[:filter][:component_id]) if params[:filter].present? && params[:filter][:component_id].present?
+
+          options_for_select(options, selected: content_block_settings.default_linked_component)
         end
 
         def linked_components
@@ -45,6 +80,39 @@ module Decidim
 
         def proposal_path(proposal)
           Decidim::ResourceLocatorPresenter.new(proposal).path
+        end
+
+        def default_filter_params
+          {
+            scope_id: nil,
+            category_id: nil,
+            component_id: nil
+          }
+        end
+
+        def categories_filter
+          @categories_filter ||= Decidim::Category.where(id: Decidim::Proposals::Proposal.where(component: linked_components).pluck(:id).uniq)
+        end
+
+        def scopes_filter
+          @scopes_filter ||= Decidim::Scope.where(id: Decidim::Proposals::Proposal.where(component: linked_components).pluck(:id).uniq)
+        end
+
+        def components_filter
+          @components_filter ||= linked_components
+        end
+
+        def default_proposals
+          @default_proposals ||= Decidim::Proposals::Proposal.published.where(component: content_block_settings.default_linked_component).sample(MAX_PROPOSALS)
+        end
+
+        # TODO: Ensure component can be displayed and is authorized
+        # TODO: Prevent Component extraction using filter params
+        def content_block_component
+          return content_block_settings.default_linked_component if params.dig(:filter, :component_id).blank?
+          return content_block_settings.default_linked_component unless params.dig(:filter, :component_id).match?(/\d+/)
+
+          Decidim::Component.find(params.dig(:filter, :component_id).to_i)
         end
       end
     end

@@ -2,13 +2,14 @@
   <section class="wrapper-home home-section" xmlns="http://www.w3.org/1999/xhtml">
     <div class="row collapse">
       <h3 class="section-heading"><%= t("decidim.homepage_proposals.proposal_at_a_glance.title") %></h3>
+      <p class="loading"><%= t(".loading") %></p>
       <div class="glide margin-top-3">
         <div class="glide__track row small-12 column" data-glide-el="track">
           <ul class="glide__slides">
-            <% glanced_proposals.each do |proposal| %>
-              <li class="glide__slide">
-                <%= render partial: "decidim/homepage_proposals/proposal_at_a_glance.html", locals: { proposal: proposal } %>
-              </li>
+            <% if glanced_proposals.present? %>
+              <%= render partial: "decidim/shared/homepage_proposals/slider_proposals", locals: { glanced_proposals: glanced_proposals } %>
+            <% else %>
+              <% render '_no_proposals' %>
             <% end %>
           </ul>
         </div>
@@ -30,6 +31,5 @@
       </div>
     </div>
   </section>
-
   <%= javascript_pack_tag 'decidim_homepage_proposals' %>
 <% end %>
