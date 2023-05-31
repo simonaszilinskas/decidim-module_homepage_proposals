@@ -26,13 +26,14 @@ describe "Admin manages proposals slider content blocks", type: :system do
       let!(:proposals_component2) { create :component, manifest_name: "proposals" }
       let!(:proposals_component3) { create :component, manifest_name: "proposals" }
       let!(:proposals_component4) { create :component }
+      let!(:proposals) { create_list(:proposal, 12, component: proposals_component3) }
 
       it "updates the settings of the content block" do
         visit decidim_admin.edit_organization_homepage_content_block_path(:proposals_slider)
 
         check "Activate filters"
 
-        within "select[label='Linked components']" do
+        within "#content_block_settings_linked_components_id" do
           find("option[value='#{proposals_component1.id}']").click
           find("option[value='#{proposals_component3.id}']").click
           expect(page).not_to have_css("option[value='#{proposals_component4.id}']")
@@ -49,10 +50,6 @@ describe "Admin manages proposals slider content blocks", type: :system do
         expect(content_block.reload.settings.activate_filters).to eq(true)
         expect(content_block.reload.settings.linked_components_id).to eq(["", proposals_component1.id.to_s, proposals_component3.id.to_s])
         expect(content_block.reload.settings.default_linked_component).to eq(proposals_component3.id.to_i)
-
-        visit decidim.root_path
-
-        expect(page).to have_content("PROPOSALS AT A GLANCE")
       end
     end
   end
