@@ -23,11 +23,11 @@ module Decidim
             scopes = Decidim::Scope.find(params[:filter][:scope_id]) if params[:filter][:scope_id].present?
           end
 
-          @glanced_proposals ||= Decidim::Proposals::Proposal.published
-                                                             .where(component: content_block_component)
-                                                             .where(filter_by(:scopes, scopes))
-                                                             .where(filter_by(:category, category))
-                                                             .sample(MAX_PROPOSALS)
+          @glanced_proposals = Decidim::Proposals::Proposal.published
+                                                           .where(component: content_block_component)
+                                                           .where(filter_by_scopes(scopes))
+                                                           .where(filter_by(:category, category))
+                                                           .sample(MAX_PROPOSALS)
         end
 
         private
@@ -37,10 +37,10 @@ module Decidim
         end
 
         def filter_by(name, filter)
-          { name => filter } if filter.present?
+          { name => filter.id } if filter.present?
         end
 
-        def filter_scopes(scopes)
+        def filter_by_scopes(scopes)
           { scope: scopes } if scopes.present?
         end
 
