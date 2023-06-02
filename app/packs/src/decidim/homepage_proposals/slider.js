@@ -1,12 +1,15 @@
 import Glide from "@glidejs/glide";
 import GlideBuilder from "./glideBuilder";
+import FormFilterComponents from "src/decidim/form_filter.js";
+
 export default class Slider {
-    constructor(proposalsSelector, proposalsItemsSelector, filterForm) {
-        this.proposalSlider = $(proposalsSelector);
-        this.proposalsItems = $(proposalsItemsSelector);
-        this.filterForm = filterForm;
+    constructor($proposalsSlider, $proposalsGlideItems, $filterForm, glide) {
+        this.proposalSlider = $proposalsSlider;
+        this.proposalsItems = $proposalsGlideItems;
+        this.$filterForm = $filterForm;
+        this.filterForm = new FormFilterComponents($filterForm);
+        this.glide = glide;
         this.loading = this.proposalSlider.find(".loading");
-        this.build();
     }
 
     APIUrl() {
@@ -15,28 +18,6 @@ export default class Slider {
 
     set Items(ary) {
         this.items = ary;
-    }
-
-    build() {
-        this.glide = new Glide('.glide', {
-            type: 'carousel',
-            startAt: 0,
-            perView: 4,
-            autoplay: 2500,
-            hoverpause: true,
-            breakpoints: {
-                1024: {
-                    perView: 3
-                },
-                768: {
-                    perView: 2
-                },
-                480: {
-                    perView: 1
-                }
-            },
-            perTouch: 1
-        })
     }
 
     filterURIParams() {
@@ -82,5 +63,11 @@ export default class Slider {
 
     clearItems() {
        this.proposalsItems.empty();
+    }
+
+    bindChangesOnFilter() {
+        this.$filterForm.on("change", (event) => {
+            this.start();
+        });
     }
 }
