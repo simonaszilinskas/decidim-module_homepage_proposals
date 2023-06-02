@@ -1,86 +1,86 @@
-import FormFilterComponents from "src/decidim/form_filter.js";
-import Glide from '@glidejs/glide'
+import Glide from "@glidejs/glide";
+import GlideBuilder from "./glideBuilder";
+export default class Slider {
+    constructor(proposalsSelector, proposalsItemsSelector, filterForm) {
+        this.proposalSlider = $(proposalsSelector);
+        this.proposalsItems = $(proposalsItemsSelector);
+        this.filterForm = filterForm;
+        this.loading = this.proposalSlider.find(".loading");
+        this.build();
+    }
 
-$(() => {
-    const glide = new Glide('.glide', {
-        type: 'carousel',
-        startAt: 0,
-        perView: 4,
-        autoplay: 2500,
-        hoverpause: true,
-        breakpoints: {
-            1024: {
-                perView: 3
-            },
-            768: {
-                perView: 2
-            },
-            480: {
-                perView: 1
-            }
-        },
-        perTouch: 1
-    });
+    APIUrl() {
+        return '/proposals_slider/refresh_proposals' + this.filterURIParams();
+    }
 
-    const $proposalsSliderContent = $('#proposals_glide_items');
-    const filterForm = new FormFilterComponents($('#filters-form'));
-    const filterURIParams = filterForm._currentStateAndPath()[0];
+    set Items(ary) {
+        this.items = ary;
+    }
 
-    $.ajax({
-        url: `/proposals_slider/refresh_proposals${filterURIParams}`, // Use the new route
-        method: 'GET',
-        success: function (response) {
-            if (response === '') {
-                console.log("Empty response")
-                // console.log($proposalsSliderContent)
-                // $proposalsSliderContent.html("<p>No proposals found</p>");
-            } else {
-                for (let i = 0; i < response.length; i++) {
-                    $proposalsSliderContent.append(
-                        proposalSlideTemplate(response[i])
-                    );
+    build() {
+        this.glide = new Glide('.glide', {
+            type: 'carousel',
+            startAt: 0,
+            perView: 4,
+            autoplay: 2500,
+            hoverpause: true,
+            breakpoints: {
+                1024: {
+                    perView: 3
+                },
+                768: {
+                    perView: 2
+                },
+                480: {
+                    perView: 1
                 }
-                glide.mount();
-            }
-        },
-        error: ((err) => {
-            console.log(err)
-            console.log('Error refreshing proposals slider');
+            },
+            perTouch: 1
         })
-    });
+    }
 
-    glide.on("run", function () {
-        let bulletNumber = glide.index;
-        $($(".glide__bullets").children()).css("color", "lightgrey");
-        $($(".glide__bullets").children().get(bulletNumber + 1)).css("color", "grey");
-    });
-});
+    filterURIParams() {
+        return this.filterForm._currentStateAndPath()[0];
+    }
 
+    start() {
+        this.startLoading()
+        const glideBuilder = new GlideBuilder(null)
 
-const proposalSlideTemplate = (proposal) => {
-    return `
-<div class="column glide__slide">
-  <div class="card card--proposal card--stack">
-<a href="${proposal.url}">
-      <div class="card--header">
-      </div>
-</a>
+        $.ajax({
+            url: this.APIUrl(),
+            method: 'GET',
+            success: ((res) => {
+                if (res === '') {
+                    this.proposalsItems.append(glideBuilder.toGlideItem())
+                } else {
+                    for (let i = 0; i < res.length; i++) {
+                        glideBuilder.item = res[i]
+                        this.proposalsItems.append(glideBuilder.toGlideItem());
+                    }
+                }
+            }),
+            error: ((err) => {
+                this.proposalsItems.append(glideBuilder.toGlideItem())
+            }),
+            complete: (() => {
+                console.log("Should mount Glide slider")
+                this.endLoading()
+                this.glide.mount();
+            })
+        });
+    }
 
-    <div class="card--content text-center margin-top-1">
-<a href="${proposal.url}">
-        <h3 class="card__title">${proposal.title}</h3>
-</a>
-      <div class="card__text--paragraph padding-top-1">
-        <p>${proposal.body}</p>
-      </div>
-<a href="${proposal.url}">
-        <div class="card__button align-bottom">
-          <span class="button button--secondary">En savoir plus</span>
-        </div>
-</a>
-    </div>
-  </div>
-</div>    
-    
-`
+    startLoading() {
+        this.clearItems();
+        this.loading.show();
+    }
+
+    endLoading() {
+        this.loading.hide();
+    }
+
+    clearItems() {
+       this.proposalsItems.empty();
+    }
 }
