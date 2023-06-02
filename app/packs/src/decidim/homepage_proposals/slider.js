@@ -8,7 +8,6 @@ export default class Slider {
         this.proposalSlider = $proposalsSlider;
         this.proposalsItems = $proposalsGlideItems;
         this.filterForm = new FormFilterComponents($filterForm);
-        // this.glide = new GlideBuilder('.glide', 'carousel', 4);
         this.loading = this.proposalSlider.find(".loading");
     }
 
@@ -51,14 +50,12 @@ export default class Slider {
             }),
             complete: (() => {
                 this.endLoading();
-                let newGlide = new GlideBuilder('.glide', 'carousel', this.count);
-                this.glide = newGlide
+                this.glide = new GlideBuilder('.glide', 'carousel', this.count);
             })
         });
     }
 
     startLoading() {
-        // TODO: Clearing items crash Glide Library
         this.clearItems();
         this.loading.show();
     }
@@ -69,5 +66,6 @@ export default class Slider {
 
     clearItems() {
         this.proposalsItems.empty();
+        $(".glide__bullet.glide__bullet_idx").remove();
     }
 }
