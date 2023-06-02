@@ -41,7 +41,7 @@ export default class GlideItem {
     }
 
     unknown() {
-        return `<div class="column glide__slide">
+        return `<div class="">
   <div class="card card--proposal card--stack">
     <div class="card--content text-center margin-top-1">
     <div class="callout warning">

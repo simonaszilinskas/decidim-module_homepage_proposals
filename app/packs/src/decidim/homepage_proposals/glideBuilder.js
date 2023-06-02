@@ -6,6 +6,11 @@ export default class GlideBuilder {
         this.numberPerSlide(total)
         this.setOpts()
         this.glide = new Glide(selector, this.options)
+
+        if (total <= 1) {
+            this.glide.destroy();
+        }
+
         this.bindings()
     }
 
@@ -18,7 +23,6 @@ export default class GlideBuilder {
         this.mount();
     }
     mount() {
-        console.log(this.options)
         this.glide.mount()
     }
 

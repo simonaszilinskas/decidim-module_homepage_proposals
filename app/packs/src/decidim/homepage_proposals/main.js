@@ -7,9 +7,19 @@ $(() => {
     const $proposalsGlideItems = $("#proposals_glide_items");
     const $filterForm = $("#filters-form");
     const slider = new Slider($proposalsSlider, $proposalsGlideItems, $filterForm);
-    slider.start().then(r => slider.glide.mount())
+    slider.start().then((res) => {
+        if (res.length <= 1) {
+            slider.glide.glide.disable()
+        }
+        slider.glide.mount()
+    })
 
     $filterForm.on("change", (event) => {
-        slider.start().then(r => slider.glide.mount())
+        slider.start().then((res) => {
+            if (res.length <= 1) {
+                slider.glide.glide.disable()
+            }
+            slider.glide.mount()
+        })
     });
 });
