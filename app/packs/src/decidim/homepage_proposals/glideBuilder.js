@@ -1,62 +1,67 @@
+import Glide from "@glidejs/glide";
+
 export default class GlideBuilder {
-    constructor(proposal) {
-        this.proposal = proposal;
+    constructor(selector = '.glide', type = 'carousel', total = 4) {
+        this.type = type
+        this.numberPerSlide(total)
+        this.setOpts()
+        this.glide = new Glide(selector, this.options)
+        this.bindings()
     }
 
-    set item(proposal) {
-        this.proposal = proposal;
+    destroy() {
+        this.glide.destroy();
     }
 
-    toGlideItem() {
-        if (this.proposal === null) {
-            return this.unknown();
+    reload() {
+        this.glide = new Glide('.glide', this.options).destroy();
+        this.mount();
+    }
+    mount() {
+        console.log(this.options)
+        this.glide.mount()
+    }
+
+    bindings() {
+    this.glide.on("run", () => {
+            let bulletNumber = this.glide.index;
+            $($(".glide__bullets").children()).css("color", "lightgrey");
+            $($(".glide__bullets").children().get(bulletNumber + 1)).css("color", "grey");
+        });
+    }
+
+    setOpts() {
+        this.options = {
+            type: this.type,
+            startAt: 0,
+            autoplay: 3500,
+            perView: this.pervView,
+            hoverpause: true,
+            breakpoints: this.breakpoints,
+            perTouch: 1
         }
-
-        return this.presenter();
     }
 
-    presenter() {
-        return `<div class="column glide__slide">
-  <div class="card card--proposal card--stack">
-<a href="${this.proposal.url}">
-      <div class="card--header">
-      </div>
-</a>
-
-    <div class="card--content text-center margin-top-1">
-<a href="${this.proposal.url}">
-        <h3 class="card__title">${this.proposal.title}</h3>
-</a>
-      <div class="card__text--paragraph padding-top-1">
-        <p>${this.proposal.body}</p>
-      </div>
-<a href="${this.proposal.url}">
-        <div class="card__button align-bottom">
-          <span class="button button--secondary">Visit</span>
-        </div>
-</a>
-    </div>
-  </div>
-</div>`
+    setBreakpoints(total) {
+        this.breakpoints = {
+            1024: {
+                perView: (total > 1) ? 3 : 1
+            },
+            768: {
+                perView: (total > 1) ? 2 : 1
+            },
+            480: {
+                perView: 1
+            }
+        }
     }
 
-    unknown() {
-        return `<div class="column glide__slide">
-  <div class="card card--proposal card--stack">
-    <div class="card--content text-center margin-top-1">
-    <div class="callout warning">
-        <h3>No matching proposals</h3>    
-    </div>
-    </div>
-  </div>
-</div>`
+    setPervView(total) {
+        this.pervView = (total > 1) ? 4 : 1
     }
 
-    bullet(idx) {
-        return `<div class="glide__bullet glide__bullet_idx" data-glide-dir="=${idx}">
-  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-circle-fill" viewBox="0 0 16 16">
-    <circle cx="7" cy="7" r="7"/>
-  </svg>
-</div>`
+    numberPerSlide(total) {
+        this.setPervView(total)
+        this.setBreakpoints(total)
     }
 }

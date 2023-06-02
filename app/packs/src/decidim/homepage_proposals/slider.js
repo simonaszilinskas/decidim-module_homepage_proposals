@@ -1,13 +1,14 @@
 import Glide from "@glidejs/glide";
-import GlideBuilder from "./glideBuilder";
+import GlideItem from "./glideItem";
 import FormFilterComponents from "src/decidim/form_filter.js";
+import GlideBuilder from "./glideBuilder";
 
 export default class Slider {
-    constructor($proposalsSlider, $proposalsGlideItems, $filterForm, glide) {
+    constructor($proposalsSlider, $proposalsGlideItems, $filterForm) {
         this.proposalSlider = $proposalsSlider;
         this.proposalsItems = $proposalsGlideItems;
         this.filterForm = new FormFilterComponents($filterForm);
-        this.glide = glide;
+        // this.glide = new GlideBuilder('.glide', 'carousel', 4);
         this.loading = this.proposalSlider.find(".loading");
     }
 
@@ -15,8 +16,8 @@ export default class Slider {
         return '/proposals_slider/refresh_proposals' + this.filterURIParams();
     }
 
-    set Items(ary) {
-        this.items = ary;
+    set itemsCount(length) {
+        this.count = length;
     }
 
     filterURIParams() {
@@ -25,53 +26,33 @@ export default class Slider {
 
     async start() {
         this.startLoading()
-        const glideBuilder = new GlideBuilder(null)
+        const glideItem = new GlideItem(null)
 
         return $.ajax({
             url: this.APIUrl(),
             method: 'GET',
             success: ((res) => {
+                this.itemsCount = res.length
                 if (res.length > 0) {
                     for (let i = 0; i < res.length; i++) {
-                        glideBuilder.item = res[i]
-                        this.proposalsItems.append(glideBuilder.toGlideItem());
-                        $(".glide__bullets > .glide__bullet:last").before(glideBuilder.bullet(i));
+                        glideItem.item = res[i]
+                        this.proposalsItems.append(glideItem.toGlideItem());
+                        $(".glide__bullets > .glide__bullet:last").before(glideItem.bullet(i));
                     }
                 } else {
-                        glideBuilder.item = null;
-                        this.proposalsItems.append(glideBuilder.toGlideItem());
-                        $(".glide__bullets > .glide__bullet:last").before(glideBuilder.bullet(0));
-
+                        this.proposalsItems.append(glideItem.toGlideItem());
+                        $(".glide__bullets > .glide__bullet:last").before(glideItem.bullet(0));
                 }
-
-                return this.glide
             }),
             error: (() => {
-                this.proposalsItems.append(glideBuilder.toGlideItem())
-                return this.glide
+                this.itemsCount = 1
+                this.proposalsItems.append(glideItem.toGlideItem())
+                $(".glide__bullets > .glide__bullet:last").before(glideItem.bullet(0));
             }),
             complete: (() => {
-
-                console.log("Should mount Glide slider")
                 this.endLoading();
-                return this.glide;
-
-                const itemsCount = this.proposalsItems.children().length
-                this.glide.update({
-                    // Add updated slides
-                    breakpoints: {
-                        1024: {
-                            perView: itemsCount > 1 ? 4 : 1
-                        },
-                        768: {
-                            perView: itemsCount > 1 ? 2 : 1
-                        },
-                        480: {
-                            perView: 1
-                        }
-                    }
-                });
-                return this.glide;
+                let newGlide = new GlideBuilder('.glide', 'carousel', this.count);
+                this.glide = newGlide
             })
         });
     }
