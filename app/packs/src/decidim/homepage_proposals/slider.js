@@ -6,7 +6,6 @@ export default class Slider {
     constructor($proposalsSlider, $proposalsGlideItems, $filterForm, glide) {
         this.proposalSlider = $proposalsSlider;
         this.proposalsItems = $proposalsGlideItems;
-        this.$filterForm = $filterForm;
         this.filterForm = new FormFilterComponents($filterForm);
         this.glide = glide;
         this.loading = this.proposalSlider.find(".loading");
@@ -33,18 +32,18 @@ export default class Slider {
             method: 'GET',
             success: ((res) => {
                 // console.table(res)
-                if (res === '') {
-                    this.proposalsItems.append(glideBuilder.toGlideItem())
-                    $(".glide__bullets > .glide__bullet:last").before(glideBuilder.bullet(0))
-                } else {
+                if (res.length > 0) {
                     for (let i = 0; i < res.length; i++) {
                         glideBuilder.item = res[i]
                         this.proposalsItems.append(glideBuilder.toGlideItem());
-                        $(".glide__bullets > .glide__bullet:last").before(glideBuilder.bullet(i))
+                        $(".glide__bullets > .glide__bullet:last").before(glideBuilder.bullet(i));
                     }
+                } else {
+                    this.proposalsItems.append(glideBuilder.toGlideItem());
+                    $(".glide__bullets > .glide__bullet:last").before(glideBuilder.bullet(0));
                 }
             }),
-            error: ((err) => {
+            error: (() => {
                 this.proposalsItems.append(glideBuilder.toGlideItem())
             }),
             complete: (() => {
@@ -65,7 +64,7 @@ export default class Slider {
     }
 
     clearItems() {
-       this.proposalsItems.empty();
-       $(".glide__bullet_idx").empty();
+        this.proposalsItems.empty();
+        $(".glide__bullet_idx").empty();
     }
 }
