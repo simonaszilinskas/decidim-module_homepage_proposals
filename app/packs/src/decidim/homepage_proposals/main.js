@@ -9,8 +9,8 @@ $(() => {
     const glide = new Glide('.glide', {
         type: 'carousel',
         startAt: 0,
-        perView: 4,
         autoplay: 3500,
+        perView: 4,
         hoverpause: true,
         breakpoints: {
             1024: {
@@ -32,9 +32,11 @@ $(() => {
     });
 
     const slider = new Slider($proposalsSlider, $proposalsGlideItems, $filterForm, glide);
-    slider.start();
+    slider.start().then((res) => {
+        slider.glide.mount()
+    });
 
     $filterForm.on("change", (event) => {
-        slider.start();
+        slider.start()
     });
 });

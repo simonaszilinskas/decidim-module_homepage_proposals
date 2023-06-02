@@ -23,15 +23,14 @@ export default class Slider {
         return this.filterForm._currentStateAndPath()[0];
     }
 
-    start() {
+    async start() {
         this.startLoading()
         const glideBuilder = new GlideBuilder(null)
 
-        $.ajax({
+        return $.ajax({
             url: this.APIUrl(),
             method: 'GET',
             success: ((res) => {
-                // console.table(res)
                 if (res.length > 0) {
                     for (let i = 0; i < res.length; i++) {
                         glideBuilder.item = res[i]
@@ -39,22 +38,46 @@ export default class Slider {
                         $(".glide__bullets > .glide__bullet:last").before(glideBuilder.bullet(i));
                     }
                 } else {
-                    this.proposalsItems.append(glideBuilder.toGlideItem());
-                    $(".glide__bullets > .glide__bullet:last").before(glideBuilder.bullet(0));
+                        glideBuilder.item = null;
+                        this.proposalsItems.append(glideBuilder.toGlideItem());
+                        $(".glide__bullets > .glide__bullet:last").before(glideBuilder.bullet(0));
+
                 }
+
+                return this.glide
             }),
             error: (() => {
                 this.proposalsItems.append(glideBuilder.toGlideItem())
+                return this.glide
             }),
             complete: (() => {
+
                 console.log("Should mount Glide slider")
-                this.endLoading()
-                this.glide.mount();
+                this.endLoading();
+                return this.glide;
+
+                const itemsCount = this.proposalsItems.children().length
+                this.glide.update({
+                    // Add updated slides
+                    breakpoints: {
+                        1024: {
+                            perView: itemsCount > 1 ? 4 : 1
+                        },
+                        768: {
+                            perView: itemsCount > 1 ? 2 : 1
+                        },
+                        480: {
+                            perView: 1
+                        }
+                    }
+                });
+                return this.glide;
             })
         });
     }
 
     startLoading() {
+        // TODO: Clearing items crash Glide Library
         this.clearItems();
         this.loading.show();
     }
@@ -65,6 +88,5 @@ export default class Slider {
 
     clearItems() {
         this.proposalsItems.empty();
-        $(".glide__bullet_idx").empty();
     }
 }
