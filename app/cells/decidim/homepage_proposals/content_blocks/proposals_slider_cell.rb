@@ -4,6 +4,8 @@ module Decidim
   module HomepageProposals
     module ContentBlocks
       class ProposalsSliderCell < Decidim::ViewModel
+        attr_accessor :glanced_proposals
+
         include Cell::ViewModel::Partial
         include Core::Engine.routes.url_helpers
         include Decidim::CardHelper
@@ -23,11 +25,20 @@ module Decidim
             scopes = Decidim::Scope.find(params[:filter][:scope_id]) if params[:filter][:scope_id].present?
           end
 
-          @glanced_proposals = Decidim::Proposals::Proposal.published
+          @glanced_proposals ||= Decidim::Proposals::Proposal.published
                                                            .where(component: content_block_component)
                                                            .where(filter_by_scopes(scopes))
                                                            .where(filter_by(:category, category))
                                                            .sample(MAX_PROPOSALS)
+        end
+
+        def rerender!
+          byebug
+          if glanced_proposals.present?
+            render partial: "decidim/shared/homepage_proposals/slider_proposals", locals: { glanced_proposals: glanced_proposals }
+          else
+            render '_no_proposals'
+          end
         end
 
         private
