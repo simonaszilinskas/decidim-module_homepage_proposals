@@ -2,25 +2,25 @@
   <%#= card_for proposal, size: :s %>
 <!--</div>-->
 
-<div class="column glide__slide">
-  <div class="card card--proposal card--stack">
-<%= link_to proposal_path(proposal) do %>
-      <div class="card--header">
-        <img src="<%= image_pack_url("media/images/slider_proposal_image.jpeg") %>" alt="slider_img">
-      </div>
-<% end %>
-    <div class="card--content text-center margin-top-1">
-<%= link_to proposal_path(proposal) do %>
-        <h3 class="card__title"><%= proposal_title(proposal)  %></h3>
-<% end %>
-      <div class="card__text--paragraph padding-top-1">
-        <p><%= proposal_description(proposal) %></p>
-      </div>
-<%= link_to proposal_path(proposal) do %>
-        <div class="card__button align-bottom">
-          <span class="button button--secondary"><%= t(".learn_more") %></span>
-        </div>
-<% end %>
-    </div>
-  </div>
-</div>
+<!--<div class="column glide__slide">-->
+<!--  <div class="card card--proposal card--stack">-->
+<%#= link_to proposal_path(proposal) do %>
+<!--      <div class="card--header">-->
+<!--        <img src="<%#= image_pack_url("media/images/slider_proposal_image.jpeg") %>" alt="slider_img">-->
+<!--      </div>-->
+<%# end %>
+<!--    <div class="card--content text-center margin-top-1">-->
+<%#= link_to proposal_path(proposal) do %>
+<!--        <h3 class="card__title"><%#= proposal_title(proposal)  %></h3>-->
+<%# end %>
+<!--      <div class="card__text--paragraph padding-top-1">-->
+<!--        <p><%#= proposal_description(proposal) %></p>-->
+<!--      </div>-->
+<%#= link_to proposal_path(proposal) do %>
+<!--        <div class="card__button align-bottom">-->
+<!--          <span class="button button--secondary"><%#= t(".learn_more") %></span>-->
+<!--        </div>-->
+<%# end %>
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->

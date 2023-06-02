@@ -32,12 +32,15 @@ export default class Slider {
             url: this.APIUrl(),
             method: 'GET',
             success: ((res) => {
+                // console.table(res)
                 if (res === '') {
                     this.proposalsItems.append(glideBuilder.toGlideItem())
+                    $(".glide__bullets > .glide__bullet:last").before(glideBuilder.bullet(0))
                 } else {
                     for (let i = 0; i < res.length; i++) {
                         glideBuilder.item = res[i]
                         this.proposalsItems.append(glideBuilder.toGlideItem());
+                        $(".glide__bullets > .glide__bullet:last").before(glideBuilder.bullet(i))
                     }
                 }
             }),
@@ -63,11 +66,6 @@ export default class Slider {
 
     clearItems() {
        this.proposalsItems.empty();
-    }
-
-    bindChangesOnFilter() {
-        this.$filterForm.on("change", (event) => {
-            this.start();
-        });
+       $(".glide__bullet_idx").empty();
     }
 }
