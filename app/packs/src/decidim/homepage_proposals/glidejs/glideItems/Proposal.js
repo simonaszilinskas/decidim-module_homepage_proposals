@@ -13,7 +13,9 @@ export default class Proposal extends GlideItem {
         return `<div class="column glide__slide">
 <div class="card card--proposal card--stack">
     <a href="${this.url}">
-      <div class="card--header"></div>
+      <div class="card--header">
+      <img src="${this.image}" alt="slider_img">
+</div>
     </a>
 
     <div class="card--content text-center margin-top-1">

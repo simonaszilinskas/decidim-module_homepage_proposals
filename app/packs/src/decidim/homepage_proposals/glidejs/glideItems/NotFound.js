@@ -10,9 +10,9 @@ export default class NotFound extends GlideItem {
         <div class="card__text--paragraph padding-top-1">
             <p>No proposals found for this request</p>
         </div>
-        <a href="/" class="button--clear-filters">
+        <a href="/processes" class="button--clear-filters">
             <div class="card__button align-bottom">
-                <span class="button button--secondary">Clear filters</span>
+                <span class="button button--secondary">Visit projects</span>
             </div>
         </a>
     </div>
