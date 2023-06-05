@@ -1,0 +1,47 @@
+<%= filter_form_for filter, decidim_participatory_processes_path , id: 'filters-form' do |form| %>
+  <div class="columns mediumlarge-4 large-3">
+    <%= cell(
+          "decidim/scopes_picker",
+          form,
+          attribute: :scope_id,
+          multiple: true,
+          legend_title: t("decidim.homepage_proposals.proposal_at_a_glance.filters.scope"),
+          label: false,
+          checkboxes_on_top: false
+        ) %>
+  </div>
+  <div class="columns mediumlarge-4 large-3">
+    <%= form.categories_select :category_id,
+                               categories_filter,
+                               legend_title: t("decidim.homepage_proposals.proposal_at_a_glance.filters.categories"),
+                               disable_parents: false,
+                               label: "",
+                               selected: filter.category_id,
+                               include_blank: t("decidim.homepage_proposals.proposal_at_a_glance.filters.default_categories") %>
+  </div>
+  <div class="columns mediumlarge-4 large-3">
+    <div class="filters__section">
+      <fieldset class="">
+        <legend class="mini-title"><%= t("decidim.homepage_proposals.proposal_at_a_glance.filters.components") %></legend>
+        <label for="">
+
+          <%= form.select :component_id,
+                          options_for_default_component,
+                          label: false,
+                          selected: filter.component_id,
+                          data: { placeholder: t("decidim.homepage_proposals.proposal_at_a_glance.filters.components") }
+          %>
+        </label>
+
+      </fieldset>
+
+    </div>
+
+  </div>
+  <%# Small button to clear filters %>
+  <div class="columns mediumlarge-12 large-3">
+    <div class="clear-filters">
+      <%= link_to t("decidim.homepage_proposals.proposal_at_a_glance.filters.clear_filters"), decidim_participatory_processes_path, class: "button--clear-filters" %>
+    </div>
+  </div>
+<% end %>

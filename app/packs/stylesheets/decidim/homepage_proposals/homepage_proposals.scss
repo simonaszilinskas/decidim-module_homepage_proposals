@@ -4,6 +4,12 @@
   height: 150px;
 }
 
+// glide's relative position prevents filters from being clicked
+.glide {
+  position: inherit !important;
+  margin-top: 0 !important;
+}
+
 .glide__bullets {
   display: flex;
   justify-content: center;
