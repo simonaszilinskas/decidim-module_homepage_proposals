@@ -1,6 +1,8 @@
-import GlideItem from "../glideItem";
 import FormFilterComponents from "src/decidim/form_filter.js";
 import GlideBuilder from "../glideBuilder";
+import GlideItem from "./glideItems/GlideItem";
+import Proposal from "./glideItems/Proposal";
+import NotFound from "./glideItems/NotFound";
 
 
 // Manager communicates with API and build the HTML for the Glide.js carousel
@@ -96,12 +98,12 @@ export default class Manager {
     // - 3 placeholders
     // @return void
     createProposalsNotFound() {
-        const glideItem = new GlideItem(null)
-        this.$proposalsGlideItems.append(glideItem.unknown())
-        $(".glide__bullets > .glide__bullet:last").before(glideItem.bullet(0));
+        const notFoundGlide = new NotFound()
+        this.$proposalsGlideItems.append(notFoundGlide.render())
+        $(".glide__bullets > .glide__bullet:last").before(notFoundGlide.bullet(0));
 
         for (let i = 0; i < GlideBuilder.pervView() - 1; i++) {
-            this.$proposalsGlideItems.append(glideItem.placeholder());
+            this.$proposalsGlideItems.append(notFoundGlide.placeholder());
         }
     }
 
@@ -110,9 +112,9 @@ export default class Manager {
     // @return void
     createProposals(proposals) {
         for (let i = 0; i < proposals.length; i++) {
-            let glideItem = new GlideItem(proposals[i])
-            this.$proposalsGlideItems.append(glideItem.toGlideItem());
-            $(".glide__bullets > .glide__bullet:last").before(glideItem.bullet(i));
+            let proposalGlide = new Proposal(proposals[i])
+            this.$proposalsGlideItems.append(proposalGlide.render());
+            $(".glide__bullets > .glide__bullet:last").before(proposalGlide.bullet(i));
         }
 
         if (proposals.length < GlideBuilder.pervView()) {
