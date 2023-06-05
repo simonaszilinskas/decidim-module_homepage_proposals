@@ -1,17 +1,16 @@
 import Glide from "@glidejs/glide";
 
 export default class GlideBuilder {
-    constructor(selector = '.glide', type = 'carousel', total = 4) {
+    constructor(selector = '.glide', type = 'carousel') {
         this.type = type
-        this.numberPerSlide(total)
         this.setOpts()
         this.glide = new Glide(selector, this.options)
 
-        if (total <= 1) {
-            this.glide.destroy();
-        }
-
         this.bindings()
+    }
+
+    static pervView() {
+        return 4;
     }
 
     destroy() {
@@ -39,33 +38,12 @@ export default class GlideBuilder {
             type: this.type,
             startAt: 0,
             autoplay: 0,
-            perView: this.pervView,
+            perView: GlideBuilder.pervView(),
             hoverpause: true,
-            breakpoints: this.breakpoints,
+            breakpoints: {
+                1024: { perView: 3 }, 768: { perView: 2 }, 480: { perView: 1 }
+            },
             perTouch: 1
         }
-    }
-
-    setBreakpoints(total) {
-        this.breakpoints = {
-            1024: {
-                perView: (total > 1) ? 3 : 1
-            },
-            768: {
-                perView: (total > 1) ? 2 : 1
-            },
-            480: {
-                perView: 1
-            }
-        }
-    }
-
-    setPervView(total) {
-        this.pervView = (total > 1) ? 4 : 1
-    }
-
-    numberPerSlide(total) {
-        this.setPervView(total)
-        this.setBreakpoints(total)
     }
 }

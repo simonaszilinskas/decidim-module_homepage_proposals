@@ -41,7 +41,7 @@ export default class GlideItem {
     }
 
     unknown() {
-        return `<div class="">
+        return `<div class="column glide__slide">
   <div class="card card--proposal card--stack">
     <div class="card--content text-center margin-top-1">
     <div class="callout warning">
@@ -50,6 +50,10 @@ export default class GlideItem {
     </div>
   </div>
 </div>`
+    }
+
+    placeholder() {
+        return `<div class="column glide__slide"></div>`
     }
 
     bullet(idx) {

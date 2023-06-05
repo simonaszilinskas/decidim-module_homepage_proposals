@@ -26,22 +26,14 @@ export default class Slider {
     async start() {
         this.startLoading()
         const glideItem = new GlideItem(null)
-
+        if (this.glide !== undefined) {
+            this.glide.glide.disable()
+        }
         return $.ajax({
             url: this.APIUrl(),
             method: 'GET',
             success: ((res) => {
-                this.itemsCount = res.length
-                if (res.length > 0) {
-                    for (let i = 0; i < res.length; i++) {
-                        glideItem.item = res[i]
-                        this.proposalsItems.append(glideItem.toGlideItem());
-                        $(".glide__bullets > .glide__bullet:last").before(glideItem.bullet(i));
-                    }
-                } else {
-                        this.proposalsItems.append(glideItem.toGlideItem());
-                        $(".glide__bullets > .glide__bullet:last").before(glideItem.bullet(0));
-                }
+                this.generateGlide(res)
             }),
             error: (() => {
                 this.itemsCount = 1
@@ -50,7 +42,7 @@ export default class Slider {
             }),
             complete: (() => {
                 this.endLoading();
-                this.glide = new GlideBuilder('.glide', 'carousel', this.count);
+                this.glide = new GlideBuilder('.glide', 'carousel');
             })
         });
     }
@@ -67,5 +59,34 @@ export default class Slider {
     clearItems() {
         this.proposalsItems.empty();
         $(".glide__bullet.glide__bullet_idx").remove();
+    }
+
+    generateGlide(res) {
+        this.itemsCount = res.length
+
+        if (res.length <= 0) {
+            const glideItem = new GlideItem(null)
+            this.proposalsItems.append(glideItem.unknown())
+            $(".glide__bullets > .glide__bullet:last").before(glideItem.bullet(0));
+            for (let i = 0; i < 3; i++) {
+                let glideItem = new GlideItem(res[i])
+                this.proposalsItems.append(glideItem.placeholder());
+            }
+        } else {
+            for (let i = 0; i < res.length; i++) {
+                let glideItem = new GlideItem(res[i])
+                this.proposalsItems.append(glideItem.toGlideItem());
+                $(".glide__bullets > .glide__bullet:last").before(glideItem.bullet(i));
+            }
+
+            if (res.length < 4) {
+                let missing = 4 - res.length
+
+                for (let i = 0; i < missing; i++) {
+                    let glideItem = new GlideItem(res[i])
+                    this.proposalsItems.append(glideItem.placeholder());
+                }
+            }
+        }
     }
 }
