@@ -15,49 +15,7 @@ module Decidim
         include Decidim::FilterResource
         include Decidim::LayoutHelper
 
-        MAX_PROPOSALS = 12
-
-        def glanced_proposals
-          return default_proposals unless content_block_settings.activate_filters
-
-          if params[:filter].present?
-            category = Decidim::Category.find(params[:filter][:category_id]) if params[:filter][:category_id].present?
-            scopes = Decidim::Scope.find(params[:filter][:scope_id]) if params[:filter][:scope_id].present?
-          end
-
-          @glanced_proposals ||= Decidim::Proposals::Proposal.published
-                                                           .where(component: content_block_component)
-                                                           .where(filter_by_scopes(scopes))
-                                                           .where(filter_by(:category, category))
-                                                           .sample(MAX_PROPOSALS)
-        end
-
-        def rerender!
-          byebug
-          if glanced_proposals.present?
-            render partial: "decidim/shared/homepage_proposals/slider_proposals", locals: { glanced_proposals: glanced_proposals }
-          else
-            render '_no_proposals'
-          end
-        end
-
         private
-
-        def search_klass
-          ProposalsSearch
-        end
-
-        def filter_by(name, filter)
-          { name => filter.id } if filter.present?
-        end
-
-        def filter_by_scopes(scopes)
-          { scope: scopes } if scopes.present?
-        end
-
-        def filter_category(category)
-          { category: category } if category.present?
-        end
 
         def content_block_settings
           @content_block_settings ||= Decidim::ContentBlock.find_by(

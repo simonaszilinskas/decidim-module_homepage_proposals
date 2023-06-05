@@ -5,7 +5,6 @@ module Decidim
     include Decidim::FilterResource
     include Decidim::TranslatableAttributes
     include Decidim::Core::Engine.routes.url_helpers
-    # include Decidim::Proposals::Engine.routes.url_helpers
 
     def refresh_proposals
       render json: build_proposals_api
@@ -31,10 +30,10 @@ module Decidim
       end
 
       @glanced_proposals ||= Decidim::Proposals::Proposal.published
-                                                       .where(component: params[:filter][:component_id])
-                                                       .where(filter_by_scopes(scopes))
-                                                       .where(filter_by(:category, category))
-                                                       .sample(12)
+                                                         .where(component: params[:filter][:component_id])
+                                                         .where(filter_by_scopes(scopes))
+                                                         .where(filter_by(:category, category))
+                                                         .sample(12)
     end
 
     def filter_by(name, filter)
