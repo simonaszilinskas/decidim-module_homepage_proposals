@@ -38,7 +38,7 @@ export default class GlideBuilder {
         this.options = {
             type: this.type,
             startAt: 0,
-            autoplay: 3500,
+            autoplay: 0,
             perView: this.pervView,
             hoverpause: true,
             breakpoints: this.breakpoints,
