@@ -1,25 +1,13 @@
-import FormFilterComponents from "src/decidim/form_filter.js";
-import Slider from "./slider"
-import Glide from "@glidejs/glide";
+import Manager from "./glidejs/Manager"
 
 $(() => {
     const $proposalsSlider = $("#proposals_slider");
     const $proposalsGlideItems = $("#proposals_glide_items");
     const $filterForm = $("#filters-form");
-    const slider = new Slider($proposalsSlider, $proposalsGlideItems, $filterForm);
-    slider.start().then((res) => {
-        if (res.length <= 1) {
-            slider.glide.glide.disable()
-        }
-        slider.glide.mount()
-    })
+    const slider = new Manager($proposalsSlider, $proposalsGlideItems, $(".glide__bullet.glide__bullet_idx"), $filterForm);
+    slider.start()
 
-    $filterForm.on("change", (event) => {
-        slider.start().then((res) => {
-            if (res.length <= 1) {
-                slider.glide.glide.disable()
-            }
-            slider.glide.mount()
-        })
+    $filterForm.on("change", () => {
+        slider.start()
     });
 });

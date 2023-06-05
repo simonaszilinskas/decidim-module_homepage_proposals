@@ -17,6 +17,10 @@ export default class GlideBuilder {
         this.glide.destroy();
     }
 
+    disable() {
+        this.glide.disable();
+    }
+
     reload() {
         this.glide = new Glide('.glide', this.options).destroy();
         this.mount();

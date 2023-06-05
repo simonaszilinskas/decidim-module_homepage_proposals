@@ -25,7 +25,6 @@ export default class Slider {
 
     async start() {
         this.startLoading()
-        const glideItem = new GlideItem(null)
         if (this.glide !== undefined) {
             this.glide.glide.disable()
         }
@@ -33,10 +32,12 @@ export default class Slider {
             url: this.APIUrl(),
             method: 'GET',
             success: ((res) => {
+                console.log(res)
                 this.generateGlide(res)
             }),
-            error: (() => {
-                this.itemsCount = 1
+            error: ((err) => {
+                console.log(err)
+                const glideItem = new GlideItem(null)
                 this.proposalsItems.append(glideItem.toGlideItem())
                 $(".glide__bullets > .glide__bullet:last").before(glideItem.bullet(0));
             }),
@@ -62,8 +63,6 @@ export default class Slider {
     }
 
     generateGlide(res) {
-        this.itemsCount = res.length
-
         if (res.length <= 0) {
             const glideItem = new GlideItem(null)
             this.proposalsItems.append(glideItem.unknown())
