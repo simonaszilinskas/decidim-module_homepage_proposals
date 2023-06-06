@@ -11,8 +11,11 @@
 
 
     <div id="proposals_slider">
-      <p class="loading"><%= t(".loading") %></p>
       <div class="glide margin-top-3">
+        <div class="column small-12">
+          <p class="loading text-center"><%= t(".loading") %></p>
+
+        </div>
         <div class="glide__track row small-12 column" data-glide-el="track">
           <ul class="glide__slides" id="proposals_glide_items">
             <%# Content loaded by 'app/packs/src/decidim/homepage_proposals/main.js' %>
