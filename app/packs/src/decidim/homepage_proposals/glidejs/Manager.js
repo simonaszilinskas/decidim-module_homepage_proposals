@@ -71,12 +71,12 @@ export default class Manager {
                 this.generateGlides([])
             })
             .always((res) => {
-                this.endLoading();
                 this.glide = new GlideBuilder('.glide', 'carousel');
 
                 if (res.length <= 1 || res.status === 500) {
                     this.glide.disable()
                 }
+                this.endLoading();
 
                 this.glide.mount()
             })
