@@ -15,7 +15,7 @@ module Decidim
         {
           id: proposal.id,
           title: translated_attribute(proposal.title).truncate(40),
-          body: translated_attribute(proposal.body).truncate(70),
+          body: translated_attribute(proposal.body).truncate(150),
           url: proposal_path(proposal),
           image: proposal.attachments.select(&:image?).first&.url || view_context.image_pack_url("media/images/slider_proposal_image.jpeg")
         }
