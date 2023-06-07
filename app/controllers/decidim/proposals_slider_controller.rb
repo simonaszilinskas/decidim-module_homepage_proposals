@@ -19,7 +19,8 @@ module Decidim
           title: translated_attribute(proposal.title).truncate(40),
           body: translated_attribute(proposal.body).truncate(150),
           url: proposal_path(proposal),
-          image: image_for(proposal)
+          image: image_for(proposal),
+          state: proposal.state
         }
       end
     end

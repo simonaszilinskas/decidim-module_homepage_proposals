@@ -7,6 +7,20 @@ export default class Proposal extends GlideItem {
         this.body = obj.body;
         this.image = obj.image;
         this.url = obj.url;
+        this.state = obj.state || 'not answered' ;
+        switch(this.state){
+            case 'accepted':
+                this.color = 'success';
+                break;
+            case 'rejected':
+                this.color = 'alert';
+                break;
+            case 'evaluating':
+                this.color = 'warning';
+                break;
+            default:
+                this.color = 'muted';
+        }
     }
 
     render() {
@@ -17,8 +31,8 @@ export default class Proposal extends GlideItem {
       <img src="${this.image}" class="proposal-glance__img" alt="slider_img">
 </div>
     </a>
-
     <div class="card--process__small text-center padding-1">
+            <span class="${this.color} card__text--status status_slider"> ${this.state.charAt(0).toUpperCase() + this.state.slice(1)} </span>
         <a href="${this.url}"><h3 class="proposal-glance card__title">${this.title}</h3></a>
         <div class="card__text--paragraph padding-top-1">
             <p>${this.body}</p>

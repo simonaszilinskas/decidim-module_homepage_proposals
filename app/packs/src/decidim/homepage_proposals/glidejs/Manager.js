@@ -32,7 +32,9 @@ export default class Manager {
     // Clears Glide carousel and display loader
     // @return void
     startLoading() {
+        let height = $(".glide__slides").css("height");
         this.clearGlideItems();
+        this.$loading.css("height", height);
         this.$loading.show();
     }
 
