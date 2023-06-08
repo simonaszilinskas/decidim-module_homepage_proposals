@@ -39,18 +39,6 @@ module Decidim
           @linked_components ||= Decidim::Component.where(id: content_block_settings.linked_components_id.reject(&:blank?).map(&:to_i))
         end
 
-        def proposal_title(proposal)
-          translated_attribute(proposal.title)
-        end
-
-        def proposal_description(proposal)
-          translated_attribute(proposal.body)
-        end
-
-        def proposal_path(proposal)
-          Decidim::ResourceLocatorPresenter.new(proposal).path
-        end
-
         def default_filter_params
           {
             scope_id: nil,
@@ -61,19 +49,6 @@ module Decidim
 
         def categories_filter
           @categories_filter ||= Decidim::Category.where(id: linked_components.map(&:categories).flatten)
-        end
-
-        def default_proposals
-          @default_proposals ||= Decidim::Proposals::Proposal.published.where(component: content_block_settings.default_linked_component).sample(MAX_PROPOSALS)
-        end
-
-        # TODO: Ensure component can be displayed and is authorized
-        # TODO: Prevent Component extraction using filter params
-        def content_block_component
-          return content_block_settings.default_linked_component if params.dig(:filter, :component_id).blank?
-          return content_block_settings.default_linked_component unless params.dig(:filter, :component_id).match?(/\d+/)
-
-          Decidim::Component.find(params.dig(:filter, :component_id).to_i)
         end
       end
     end
