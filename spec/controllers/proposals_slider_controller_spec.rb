@@ -69,10 +69,10 @@ module Decidim
 
           context "and on the category" do
             it "renders proposals of the asked category" do
-              post "refresh_proposals", params: { filter: { component_id: component.id, category_id: category1.id , scope_id: "" } }
+              post "refresh_proposals", params: { filter: { component_id: component.id, category_id: category1.id, scope_id: "" } }
 
               expect(JSON.parse(response.body).size).to eq(4)
-              expect(JSON.parse(response.body).map { |proposal| proposal["id"] }).to match_array((proposals_11+proposals_12).map(&:id))
+              expect(JSON.parse(response.body).map { |proposal| proposal["id"] }).to match_array((proposals_11 + proposals_12).map(&:id))
             end
           end
 
@@ -81,7 +81,8 @@ module Decidim
               post "refresh_proposals", params: { filter: { component_id: component.id, category_id: "", scope_id: scope1.id } }
 
               expect(JSON.parse(response.body).size).to eq(6)
-              expect(JSON.parse(response.body).map { |proposal| proposal["id"] }).to match_array((proposals_11+proposals_21+proposals_31).map(&:id))            end
+              expect(JSON.parse(response.body).map { |proposal| proposal["id"] }).to match_array((proposals_11 + proposals_21 + proposals_31).map(&:id))
+            end
           end
 
           context "and on the category and the scope" do
