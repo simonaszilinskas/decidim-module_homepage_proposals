@@ -34,12 +34,14 @@ module Decidim
       @glanced_proposals ||= Decidim::Proposals::Proposal.published
                                                          .where(component: params[:filter][:component_id])
                                                          .where(filter_by_scopes(scopes))
-                                                         .where(filter_by(:category, category))
+                                                         .select do |proposal|
+                                                           if category.present?
+                                                             proposal.category == category
+                                                           else
+                                                             true
+                                                           end
+                                                         end
                                                          .sample(12)
-    end
-
-    def filter_by(name, filter)
-      { name => filter.id } if filter.present?
     end
 
     def filter_by_scopes(scopes)

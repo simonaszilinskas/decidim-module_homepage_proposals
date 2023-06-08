@@ -60,15 +60,7 @@ module Decidim
         end
 
         def categories_filter
-          @categories_filter ||= Decidim::Category.where(id: Decidim::Proposals::Proposal.where(component: linked_components).pluck(:id).uniq)
-        end
-
-        def scopes_filter
-          @scopes_filter ||= Decidim::Scope.where(id: Decidim::Proposals::Proposal.where(component: linked_components).pluck(:id).uniq)
-        end
-
-        def components_filter
-          @components_filter ||= linked_components
+          @categories_filter ||= Decidim::Category.where(id: linked_components.map(&:categories).flatten)
         end
 
         def default_proposals
