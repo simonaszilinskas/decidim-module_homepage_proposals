@@ -20,7 +20,7 @@ module Decidim
         end
 
         def options_for_default_component
-          components = Decidim::Component.where(id: content_block.settings.linked_components_id.reject(&:blank?).map(&:to_i))
+          components = Decidim::Component.where(id: content_block.settings.linked_components_id.compact)
           options = components.map do |component|
             ["#{translated_attribute(component.name)} (#{translated_attribute(component.participatory_space.title)})", component.id]
           end

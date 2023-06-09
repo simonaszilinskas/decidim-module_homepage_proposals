@@ -8,18 +8,19 @@ export default class Proposal extends GlideItem {
         this.image = obj.image;
         this.url = obj.url;
         this.state = obj.state || 'not answered' ;
-        switch(this.state){
+        this.color = this.colorFromState(this.state);
+    }
+
+    colorFromState(state) {
+        switch(state){
             case 'accepted':
-                this.color = 'success';
-                break;
+                return 'success';
             case 'rejected':
-                this.color = 'alert';
-                break;
+                return 'alert';
             case 'evaluating':
-                this.color = 'warning';
-                break;
+                return 'warning';
             default:
-                this.color = 'muted';
+                return 'muted';
         }
     }
 

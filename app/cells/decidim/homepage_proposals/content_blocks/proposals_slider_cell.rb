@@ -8,12 +8,10 @@ module Decidim
 
         include Cell::ViewModel::Partial
         include Core::Engine.routes.url_helpers
-        include Decidim::CardHelper
         include Decidim::IconHelper
         include ActionView::Helpers::FormOptionsHelper
         include Decidim::FiltersHelper
         include Decidim::FilterResource
-        include Decidim::LayoutHelper
 
         private
 
@@ -25,18 +23,16 @@ module Decidim
         end
 
         def options_for_default_component
-          components = Decidim::Component.where(id: content_block_settings.linked_components_id.reject(&:blank?).map(&:to_i))
+          components = Decidim::Component.where(id: content_block_settings.linked_components_id.compact)
           options = components.map do |component|
             ["#{translated_attribute(component.name)} (#{translated_attribute(component.participatory_space.title)})", component.id]
           end
 
-          return options_for_select(options, selected: params[:filter][:component_id]) if params[:filter].present? && params[:filter][:component_id].present?
-
-          options_for_select(options, selected: content_block_settings.default_linked_component)
+          options_for_select(options, selected: selected_component_id)
         end
 
         def linked_components
-          @linked_components ||= Decidim::Component.where(id: content_block_settings.linked_components_id.reject(&:blank?).map(&:to_i))
+          @linked_components ||= Decidim::Component.where(id: content_block_settings.linked_components_id.compact)
         end
 
         def default_filter_params
@@ -49,6 +45,10 @@ module Decidim
 
         def categories_filter
           @categories_filter ||= Decidim::Category.where(id: linked_components.map(&:categories).flatten)
+        end
+
+        def selected_component_id
+          @selected_component_id ||= params.dig(:filter, :component_id) || content_block_settings.default_linked_component
         end
       end
     end

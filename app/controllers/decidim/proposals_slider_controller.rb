@@ -27,12 +27,12 @@ module Decidim
 
     def glanced_proposals
       if params[:filter].present?
-        category = Decidim::Category.find(params[:filter][:category_id]) if params[:filter][:category_id].present?
-        scopes = Decidim::Scope.find(params[:filter][:scope_id]) if params[:filter][:scope_id].present?
+        category = Decidim::Category.find(params.dig(:filter, :category_id)) if params.dig(:filter, :category_id).present?
+        scopes = Decidim::Scope.find(params.dig(:filter, :scope_id)) if params.dig(:filter, :scope_id).present?
       end
 
       @glanced_proposals ||= Decidim::Proposals::Proposal.published
-                                                         .where(component: params[:filter][:component_id])
+                                                         .where(component: params.dig(:filter, :component_id))
                                                          .where(filter_by_scopes(scopes))
                                                          .select do |proposal|
                                                            if category.present?
