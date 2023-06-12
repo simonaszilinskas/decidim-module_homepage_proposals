@@ -1,0 +1,13 @@
+<% form.fields_for :settings, form.object.settings do |settings_fields| %>
+  <%= settings_fields.check_box :activate_filters, label: t(".activate_filters") %>
+  <%= settings_fields.select :linked_components_id,
+                             options_for_proposals_components,
+                             { include_blank: true, label: t(".linked_components_id") },
+                             { multiple: true, class: "chosen-select" } %>
+  <%= settings_fields.select :default_linked_component,
+                 options_for_default_component,
+                 { include_blank: false, label: t(".default_linked_component") },
+                 class: "chosen-select" %>
+<% end %>
+
+<%= javascript_pack_tag "decidim_homepage_proposals_admin" %>

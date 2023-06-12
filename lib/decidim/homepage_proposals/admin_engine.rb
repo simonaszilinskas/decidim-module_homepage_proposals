@@ -10,12 +10,9 @@ module Decidim
       paths["lib/tasks"] = nil
 
       routes do
-        # Add admin engine routes here
-        # resources :homepage_proposals do
-        #   collection do
-        #     resources :exports, only: [:create]
-        #   end
-        # end
+        # Create a route to refresh proposals
+        # proposals_slider/refresh_proposals searching for the method "refresh_proposals" in the cell
+        # resources :homepage_proposals
         # root to: "homepage_proposals#index"
       end
 
