@@ -67,19 +67,19 @@ jobs:
         with:
           ruby-version: ${{ env.RUBY_VERSION }}
           bundler-cache: true
-            - uses: actions/setup-node@v1
-              with:
-                node-version: ${{ env.NODE_VERSION }}
-            - name: Get npm cache directory path
-              id: npm-cache-dir-path
-              run: echo "::set-output name=dir::$(npm get cache)-${{ env.DECIDIM_MODULE }}"
-            - uses: actions/cache@v2
-              id: npm-cache
-              with:
-                path: ${{ steps.npm-cache-dir-path.outputs.dir }}
-                key: npm-${{ hashFiles('**/package-lock.json') }}
-                restore-keys: |
-                  npm-
+      - uses: actions/setup-node@v1
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Get npm cache directory path
+        id: npm-cache-dir-path
+        run: echo "::set-output name=dir::$(npm get cache)-${{ env.DECIDIM_MODULE }}"
+      - uses: actions/cache@v2
+        id: npm-cache
+        with:
+          path: ${{ steps.npm-cache-dir-path.outputs.dir }}
+          key: npm-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            npm-
       - run: bundle exec rake test_app
         name: Create test app
       - run: mkdir -p ./spec/decidim_dummy_app/tmp/screenshots
@@ -90,12 +90,11 @@ jobs:
       - name: Run precompile if needed
         run: |
           if [[ -d "app/views" ]] || [[ -d "spec/mailers" ]] || [[ -d "spec/system" ]]; then
-            cd "spec/decidim_dummy_app"
+            cd "./spec/decidim_dummy_app"
             bundle exec rails assets:precompile
           else
             echo "No need to precompile assets since system folder is empty"
           fi
-        working-directory: ./spec/decidim_dummy_app/
       - run: bundle exec rspec
         name: RSpec
         working-directory: ${{ env.DECIDIM_MODULE }}
@@ -110,7 +109,7 @@ jobs:
           path: ./spec/decidim_dummy_app/tmp/screenshots
           if-no-files-found: ignore
   release:
-    if: "github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'"
+    if: "github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/release')"
     needs: [tests, lint]
     runs-on: ubuntu-latest
     steps:
