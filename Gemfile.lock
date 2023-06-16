@@ -1,8 +1,8 @@
 PATH
   remote: .
   specs:
-    decidim-homepage_proposals (0.0.1)
-      decidim-core (= 0.26.0)
+    decidim-homepage_proposals (1.0.0)
+      decidim-core (~> 0.26)
 
 GEM
   remote: https://rubygems.org/
@@ -773,8 +773,8 @@ PLATFORMS
 DEPENDENCIES
   bootsnap (~> 1.4)
   byebug (~> 11.0)
-  decidim (~> 0.26.0)
-  decidim-dev (~> 0.26.0)
+  decidim (~> 0.26)
+  decidim-dev (~> 0.26)
   decidim-homepage_proposals!
   faker (~> 2.14)
   letter_opener_web (~> 2.0)
