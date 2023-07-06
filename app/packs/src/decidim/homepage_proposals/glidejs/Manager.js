@@ -75,7 +75,7 @@ export default class Manager {
             .always((res) => {
                 this.glide = new GlideBuilder('.glide', 'carousel');
 
-                if (res.length <= 1 || res.status === 500) {
+                if (res.length === undefined || res.length <= 1 || res.status === 500) {
                     this.glide.disable()
                 }
                 this.endLoading();
