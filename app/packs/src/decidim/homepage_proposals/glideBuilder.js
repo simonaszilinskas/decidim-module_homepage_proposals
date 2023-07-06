@@ -10,7 +10,7 @@ export default class GlideBuilder {
     }
 
     static pervView() {
-        return 4;
+        return 3;
     }
 
     destroy() {
@@ -28,8 +28,10 @@ export default class GlideBuilder {
     bindings() {
     this.glide.on("run", () => {
             let bulletNumber = this.glide.index;
-            $($(".glide__bullets").children()).css("color", "lightgrey");
-            $($(".glide__bullets").children().get(bulletNumber + 1)).css("color", "grey");
+            let $glideBullets = $(".glide__bullets");
+
+            $($glideBullets.children()).css("color", "lightgrey");
+            $($glideBullets.children().get(bulletNumber + 1)).css("color", "grey");
         });
     }
 
