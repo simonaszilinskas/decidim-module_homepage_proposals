@@ -38,10 +38,12 @@
     </div>
 
   </div>
-  <%# Small button to clear filters %>
   <div class="columns mediumlarge-12 large-3">
     <div class="clear-filters">
-      <%= link_to t("decidim.homepage_proposals.proposal_at_a_glance.filters.clear_filters"), decidim_participatory_processes_path, class: "button--clear-filters" %>
+      <%= link_to t("decidim.homepage_proposals.proposal_at_a_glance.filters.clear_filters"), decidim_participatory_processes_path, class: "button button--secondary small button--sc" %>
+    </div>
+    <div class="clear-filters">
+      <%= link_to t("decidim.homepage_proposals.proposal_at_a_glance.filters.all_proposals"), default_linked_component_path, class: "button button--secondary small button--sc" %>
     </div>
   </div>
 <% end %>

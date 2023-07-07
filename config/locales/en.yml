@@ -20,6 +20,7 @@ en:
       proposal_at_a_glance:
         title: Explore proposals
         filters:
+          all_proposals: All proposals
           categories: Categories
           clear_filters: Clear filters
           components: Components
