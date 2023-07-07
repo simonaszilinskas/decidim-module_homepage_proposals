@@ -16,6 +16,8 @@ module Decidim
 
         def default_linked_component_path
           main_component_path(Decidim::Component.find(selected_component_id))
+        rescue ActiveRecord::RecordNotFound
+          root_path
         end
 
         def content_block_settings
