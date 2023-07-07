@@ -1,43 +1,47 @@
 <%= filter_form_for filter, decidim_participatory_processes_path, id: 'filters-form' do |form| %>
   <div class="row">
-    <p class="columns medium-2 large-2"><%= I18n.t("decidim.homepage_proposals.proposal_at_a_glance.filters.intro") %></p>
-    <div class="columns medium-2 large-2">
-      <%= cell(
-            "decidim/scopes_picker",
-            form,
-            attribute: :scope_id,
-            multiple: true,
-            label: false,
-            checkboxes_on_top: false
-          ) %>
-    </div>
-    <p class="columns medium-1 large-1"><%= I18n.t("decidim.homepage_proposals.proposal_at_a_glance.filters.about") %></p>
-    <div class="columns medium-3 large-3">
-      <%= form.categories_select :category_id,
-                                 categories_filter,
-                                 disable_parents: false,
-                                 label: false,
-                                 selected: filter.category_id,
-                                 include_blank: t("decidim.homepage_proposals.proposal_at_a_glance.filters.default_categories") %>
-    </div>
-
-    <p class="columns medium-1 large-1"><%= I18n.t("decidim.homepage_proposals.proposal_at_a_glance.filters.in") %></p>
-    <div class="columns medium-3 large-3">
-      <%= form.select :component_id,
-                      options_for_default_component,
-                      label: false,
-                      selected: filter.component_id,
-                      data: { placeholder: t("decidim.homepage_proposals.proposal_at_a_glance.filters.components") }
-      %>
+    <div class="columns flex-v-center">
+      <p><%= I18n.t("decidim.homepage_proposals.proposal_at_a_glance.filters.intro") %></p>
+      <div>
+        <%= cell(
+              "decidim/scopes_picker",
+              form,
+              attribute: :scope_id,
+              multiple: true,
+              label: false,
+              checkboxes_on_top: false
+            ) %>
+      </div>
+      <p><%= I18n.t("decidim.homepage_proposals.proposal_at_a_glance.filters.about") %></p>
+      <div>
+        <%= form.categories_select :category_id,
+                                   categories_filter,
+                                   disable_parents: false,
+                                   label: false,
+                                   selected: filter.category_id,
+                                   include_blank: t("decidim.homepage_proposals.proposal_at_a_glance.filters.default_categories") %>
+      </div>
+      <p><%= I18n.t("decidim.homepage_proposals.proposal_at_a_glance.filters.in") %></p>
+      <div>
+        <%= form.select :component_id,
+                        options_for_default_component,
+                        label: false,
+                        selected: filter.component_id,
+                        data: { placeholder: t("decidim.homepage_proposals.proposal_at_a_glance.filters.components") }
+        %>
+      </div>
     </div>
   </div>
-  <!---->
-  <div class="columns mediumlarge-12 large-3">
-    <div class="clear-filters">
-      <%= link_to t("decidim.homepage_proposals.proposal_at_a_glance.filters.clear_filters"), decidim_participatory_processes_path, class: "button button--secondary small button--sc" %>
+  <div class="row">
+    <div class="columns medium-3">
+      <div class="clear-filters">
+        <%= link_to t("decidim.homepage_proposals.proposal_at_a_glance.filters.clear_filters"), decidim_participatory_processes_path, class: "button button--secondary small button--sc" %>
+      </div>
     </div>
-    <div class="clear-filters">
-      <%= link_to t("decidim.homepage_proposals.proposal_at_a_glance.filters.all_proposals"), default_linked_component_path, class: "button button--secondary small button--sc" %>
+    <div class="columns medium-3">
+      <div class="all-proposals flex-justify-end">
+        <%= link_to t("decidim.homepage_proposals.proposal_at_a_glance.filters.all_proposals"), default_linked_component_path, class: "button button--secondary small button--sc" %>
+      </div>
     </div>
   </div>
 <% end %>

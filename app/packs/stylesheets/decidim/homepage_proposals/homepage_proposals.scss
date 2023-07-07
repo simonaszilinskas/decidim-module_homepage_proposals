@@ -43,3 +43,14 @@
 .proposal-glance.card__title {
   max-height: 30px;
 }
+
+.flex-v-center {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.flex-justify-end {
+  display: flex;
+  justify-content: end
+}
