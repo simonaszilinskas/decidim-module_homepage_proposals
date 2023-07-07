@@ -20,6 +20,9 @@ en:
       proposal_at_a_glance:
         title: Explore proposals
         filters:
+          intro: I'd like to see projects from
+          about: about
+          in: in
           all_proposals: All proposals
           categories: Categories
           clear_filters: Clear filters
