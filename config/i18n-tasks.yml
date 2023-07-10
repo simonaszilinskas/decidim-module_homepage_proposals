@@ -2,9 +2,37 @@
 
 base_locale: en
 locales: [en]
-
+search:
+  relative_roots:
+    - app/cells
+    - app/controllers
+    - app/helpers
+    - app/mailers
+    - app/presenters
+    - app/views
 ignore_unused:
   - "decidim.components.homepage_proposals.name"
+  - decidim.homepage_proposals.content_blocks.proposals_slider.filters_small_view.{close_modal,filter,filter_by,unfold}
+  - decidim.homepage_proposals.content_blocks.proposals_slider.{learn_more,loading,name,search}
+  - decidim.homepage_proposals.content_blocks.proposals_slider_settings_form.activate_filters
+  - decidim.homepage_proposals.content_blocks.proposals_slider_settings_form.default_linked_component
+  - decidim.homepage_proposals.content_blocks.proposals_slider_settings_form.linked_components_id
+  - decidim.homepage_proposals.proposal_at_a_glance.filters.categories
+  - decidim.homepage_proposals.proposal_at_a_glance.filters.default_components
+  - decidim.homepage_proposals.proposal_at_a_glance.filters.default_scope
+  - decidim.homepage_proposals.proposal_at_a_glance.filters.scope
+  - decidim.homepage_proposals.proposal_at_a_glance.learn_more
+  - decidim.homepage_proposals.proposal_at_a_glance.no_proposals.description
+  - decidim.homepage_proposals.proposal_at_a_glance.no_proposals.title
 
 ignore_missing:
   - decidim.participatory_processes.scopes.global
+  - decidim.homepage_proposals.content_blocks.proposals_slider.show.loading
+  - decidim.homepage_proposals.content_blocks.proposals_slider_settings_form.show.activate_filters
+  - decidim.homepage_proposals.content_blocks.proposals_slider_settings_form.show.linked_components_id
+  - decidim.homepage_proposals.content_blocks.proposals_slider_settings_form.show.default_linked_component
+  - decidim.shared.homepage_proposals.filters_small_view.filters_small_view.filter
+  - decidim.shared.homepage_proposals.filters_small_view.filters_small_view.unfold
+  - decidim.shared.homepage_proposals.filters_small_view.filters_small_view.filter_by
+  - decidim.shared.homepage_proposals.filters_small_view.filters_small_view.close_modal
+

@@ -10,24 +10,28 @@ en:
             filter_by: Filter by
             unfold: Unfold
           learn_more: Learn more
-          name: Proposals slider
           loading: Loading...
+          name: Proposals slider
           search: Search
         proposals_slider_settings_form:
           activate_filters: Activate filters
           default_linked_component: Component displayed by default
           linked_components_id: Components available in filters
       proposal_at_a_glance:
-        title: Explore proposals
         filters:
+          about: about
+          all_proposals: All proposals
           categories: Categories
           clear_filters: Clear filters
           components: Components
           default_categories: All categories
           default_components: All components
           default_scope: All scopes
+          in: in
+          intro: I'd like to see projects from
           scope: Scope
         learn_more: Learn more
         no_proposals:
-          title: No proposals
           description: There are no proposals that match the selected filters.
+          title: No proposals
+        title: Explore proposals

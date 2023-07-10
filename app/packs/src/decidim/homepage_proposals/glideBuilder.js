@@ -1,16 +1,52 @@
 import Glide from "@glidejs/glide";
 
+// Create a GlideJS carousel
+// See documentation: https://glidejs.com/docs/
 export default class GlideBuilder {
-    constructor(selector = '.glide', type = 'carousel') {
+    static defaultPervView() {
+        return 4;
+    }
+
+    static defaultBreakpoints() {
+        return { 1024: { perView: 3 }, 768: { perView: 2 }, 480: { perView: 1 } };
+    }
+
+    constructor(selector = '.glide', type = 'carousel', pervView = GlideBuilder.defaultPervView()) {
         this.type = type
+        this.pervView = this.setPervView(pervView);
+        this.breakpoints = this.setBreakpoints();
         this.setOpts()
         this.glide = new Glide(selector, this.options)
 
         this.bindings()
     }
 
-    static pervView() {
-        return 4;
+    // Set pervView, must be between 0 and 4 excluded
+    // Returns default pervView when :
+    // * pervView < 1 : Placeholder is added at ./glideItems/Manager.js:122
+    // * pervView > 4 : Max pervView must be 4
+    setPervView(pervView) {
+        if (pervView > 0 && pervView < 4) {
+            return pervView;
+        } else {
+            return GlideBuilder.defaultPervView();
+        }
+    }
+
+    // Glide breakpoints must be accorded to the pervView to prevent scrolling on placeholders
+    setBreakpoints() {
+        let breakpoints;
+        switch (this.pervView) {
+            case 2:
+                breakpoints = { 1024: {perView: 2}, 768: {perView: 2}, 480: {perView: 1} };
+                break;
+            case 1:
+                breakpoints = { 1024: {perView: 1}, 768: {perView: 1}, 480: {perView: 1} };
+                break;
+            default:
+                breakpoints = GlideBuilder.defaultBreakpoints();
+        }
+        return breakpoints;
     }
 
     destroy() {
@@ -28,8 +64,10 @@ export default class GlideBuilder {
     bindings() {
     this.glide.on("run", () => {
             let bulletNumber = this.glide.index;
-            $($(".glide__bullets").children()).css("color", "lightgrey");
-            $($(".glide__bullets").children().get(bulletNumber + 1)).css("color", "grey");
+            let $glideBullets = $(".glide__bullets");
+
+            $($glideBullets.children()).css("color", "lightgrey");
+            $($glideBullets.children().get(bulletNumber + 1)).css("color", "grey");
         });
     }
 
@@ -38,11 +76,9 @@ export default class GlideBuilder {
             type: this.type,
             startAt: 0,
             autoplay: 0,
-            perView: GlideBuilder.pervView(),
+            perView: this.pervView,
+            breakpoints: this.breakpoints,
             hoverpause: true,
-            breakpoints: {
-                1024: { perView: 3 }, 768: { perView: 2 }, 480: { perView: 1 }
-            },
             perTouch: 1
         }
     }

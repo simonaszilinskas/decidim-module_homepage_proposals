@@ -1,11 +1,14 @@
 # Decidim::HomepageProposals
 
-Homepage slider for proposals.
+Proposals homepage content block presented as carousel. 
 
-## Usage
+![Demo image](./docs/images/glanced_proposals.png)
 
-HomepageProposals will be available as a Component for a Participatory
-Space.
+With this module you can have an overview of current proposals on the platform. Carousel support live reload based on selected filters and refreshing using Ajax requests.
+
+## Requirements
+
+* [GlideJS](https://github.com/glidejs/glide)
 
 ## Installation
 
@@ -22,6 +25,13 @@ bundle
 bundle exec rake decidim_module_homepage_proposals:webpacker:install
 bundle exec rake assets:precompile
 ```
+
+## Usage in Decidim
+
+* Go to the backoffice
+* Navigate to homepage content blocks
+* Configure the homepage proposals content block
+* Enable content block
 
 ## Contributing
 

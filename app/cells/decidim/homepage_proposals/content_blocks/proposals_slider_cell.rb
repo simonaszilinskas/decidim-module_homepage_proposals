@@ -12,8 +12,13 @@ module Decidim
         include ActionView::Helpers::FormOptionsHelper
         include Decidim::FiltersHelper
         include Decidim::FilterResource
+        include Decidim::ComponentPathHelper
 
-        private
+        def default_linked_component_path
+          main_component_path(Decidim::Component.find(selected_component_id))
+        rescue ActiveRecord::RecordNotFound
+          root_path
+        end
 
         def content_block_settings
           @content_block_settings ||= Decidim::ContentBlock.find_by(
@@ -23,8 +28,7 @@ module Decidim
         end
 
         def options_for_default_component
-          components = Decidim::Component.where(id: content_block_settings.linked_components_id.compact)
-          options = components.map do |component|
+          options = linked_components.map do |component|
             ["#{translated_attribute(component.name)} (#{translated_attribute(component.participatory_space.title)})", component.id]
           end
 
