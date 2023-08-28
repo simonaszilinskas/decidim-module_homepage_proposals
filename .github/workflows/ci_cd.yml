@@ -4,7 +4,7 @@ on: [push]
 env:
   CI: "true"
   CODECOV: "true"
-  RUBY_VERSION: 2.7.5
+  RUBY_VERSION: 3.0.2
   DECIDIM_MODULE: .
 
 jobs:
@@ -17,7 +17,7 @@ jobs:
         if: "github.ref != 'refs/heads/develop'"
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-      - uses: actions/checkout@v2.0.0
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 1
       - uses: ruby/setup-ruby@master
@@ -36,6 +36,22 @@ jobs:
         name: Install Ruby deps
       - run: bundle exec rubocop -P
         name: Lint ruby files
+  zeitwerk:
+    name: Check for Zeitwerk errors
+    runs-on: ubuntu-latest
+    if: "!startsWith(github.head_ref, 'chore/l10n')"
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ env.RUBY_VERSION }}
+          bundler-cache: true
+      - name: Create db
+        run: |
+          bundle exec rails zeitwerk:check
   tests:
     name: Tests
     runs-on: ubuntu-latest
@@ -60,7 +76,7 @@ jobs:
         if: "github.ref != 'refs/heads/develop'"
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-      - uses: actions/checkout@v2.0.0
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 1
       - uses: ruby/setup-ruby@v1
@@ -84,7 +100,7 @@ jobs:
         name: Create test app
       - run: mkdir -p ./spec/decidim_dummy_app/tmp/screenshots
         name: Create the screenshots folder
-      - uses: nanasess/setup-chromedriver@v1.0.1
+      - uses: nanasess/setup-chromedriver@v2
       - run: npm install
         name: Add dependencies
       - name: Run precompile if needed
@@ -113,7 +129,7 @@ jobs:
     needs: [tests, lint]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2.0.0
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 1
       - uses: ruby/setup-ruby@v1
@@ -125,7 +141,7 @@ jobs:
           git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
           echo ${{ secrets.GITHUB_TOKEN }} | gh auth login --with-token
       - run: gem install parse_gemspec-cli
-        name: Intall gem parser
+        name: Install gem parser
       - run: echo "::set-output name=tag::$(parse-gemspec-cli *.gemspec | jq .'version')"
         name: Set tag version
         id: set_tag
