@@ -51,12 +51,12 @@ describe "Homepage proposals slider", type: :system, js: true do
         let!(:category3) { create(:category, participatory_space: other_component.participatory_space) }
         let!(:scope1) { create(:scope, organization: organization) }
         let!(:scope2) { create(:scope, organization: organization) }
-        let!(:proposals_11) { create_list(:proposal, 1, component: other_component, category: category1, scope: scope1, skip_injection: true) }
-        let!(:proposals_12) { create_list(:proposal, 1, component: other_component, category: category1, scope: scope2, skip_injection: true) }
-        let!(:proposals_21) { create_list(:proposal, 1, component: other_component, category: category2, scope: scope1, skip_injection: true) }
-        let!(:proposals_22) { create_list(:proposal, 1, component: other_component, category: category2, scope: scope2, skip_injection: true) }
-        let!(:proposals_31) { create_list(:proposal, 1, component: other_component, category: category3, scope: scope1, skip_injection: true) }
-        let!(:proposals_32) { create_list(:proposal, 1, component: other_component, category: category3, scope: scope2, skip_injection: true) }
+        let!(:proposals11) { create_list(:proposal, 1, component: other_component, category: category1, scope: scope1, skip_injection: true) }
+        let!(:proposals12) { create_list(:proposal, 1, component: other_component, category: category1, scope: scope2, skip_injection: true) }
+        let!(:proposals21) { create_list(:proposal, 1, component: other_component, category: category2, scope: scope1, skip_injection: true) }
+        let!(:proposals22) { create_list(:proposal, 1, component: other_component, category: category2, scope: scope2, skip_injection: true) }
+        let!(:proposals31) { create_list(:proposal, 1, component: other_component, category: category3, scope: scope1, skip_injection: true) }
+        let!(:proposals32) { create_list(:proposal, 1, component: other_component, category: category3, scope: scope2, skip_injection: true) }
 
         context "when filtering to render nothing" do
           it "displays the not found proposals with the component link" do
@@ -84,8 +84,8 @@ describe "Homepage proposals slider", type: :system, js: true do
               expect(page).to have_css(".glide__bullet_idx", count: 6)
               select translated_attribute(category1.name), from: "filter[category_id]"
               expect(page).to have_css(".glide__bullet_idx", count: 2)
-              expect(page).to have_content(translated_attribute(proposals_11.first.title))
-              expect(page).to have_content(translated_attribute(proposals_12.first.title))
+              expect(page).to have_content(translated_attribute(proposals11.first.title))
+              expect(page).to have_content(translated_attribute(proposals12.first.title))
             end
           end
 
@@ -100,9 +100,9 @@ describe "Homepage proposals slider", type: :system, js: true do
               end
 
               expect(page).to have_css(".glide__bullet_idx", count: 3)
-              expect(page).to have_content(translated_attribute(proposals_11.first.title))
-              expect(page).to have_content(translated_attribute(proposals_21.first.title))
-              expect(page).to have_content(translated_attribute(proposals_31.first.title))
+              expect(page).to have_content(translated_attribute(proposals11.first.title))
+              expect(page).to have_content(translated_attribute(proposals21.first.title))
+              expect(page).to have_content(translated_attribute(proposals31.first.title))
             end
           end
 
@@ -118,7 +118,7 @@ describe "Homepage proposals slider", type: :system, js: true do
               end
 
               expect(page).to have_css(".glide__bullet_idx", count: 1)
-              expect(page).to have_content(translated_attribute(proposals_11.first.title))
+              expect(page).to have_content(translated_attribute(proposals11.first.title))
             end
           end
         end

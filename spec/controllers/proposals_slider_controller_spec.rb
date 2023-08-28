@@ -30,7 +30,7 @@ module Decidim
         end
       end
 
-      context "when there is a proposal component " do
+      context "when there is a proposal component" do
         let!(:component) { create(:proposal_component, organization: current_organization) }
         let!(:proposals) { create_list(:proposal, 12, component: component) }
 
@@ -51,13 +51,13 @@ module Decidim
         let!(:category3) { create(:category, participatory_space: component.participatory_space) }
         let!(:scope1) { create(:scope, organization: current_organization) }
         let!(:scope2) { create(:scope, organization: current_organization) }
-        let!(:proposals_11) { create_list(:proposal, 2, component: component, category: category1, scope: scope1) }
-        let!(:proposals_12) { create_list(:proposal, 2, component: component, category: category1, scope: scope2) }
-        let!(:proposals_21) { create_list(:proposal, 2, component: component, category: category2, scope: scope1) }
-        let!(:proposals_22) { create_list(:proposal, 2, component: component, category: category2, scope: scope2) }
-        let!(:proposals_31) { create_list(:proposal, 2, component: component, category: category3, scope: scope1) }
-        let!(:proposals_32) { create_list(:proposal, 2, component: component, category: category3, scope: scope2) }
-        let!(:proposals) { proposals_11 + proposals_12 + proposals_21 + proposals_22 + proposals_31 + proposals_32 }
+        let!(:proposals11) { create_list(:proposal, 2, component: component, category: category1, scope: scope1) }
+        let!(:proposals12) { create_list(:proposal, 2, component: component, category: category1, scope: scope2) }
+        let!(:proposals21) { create_list(:proposal, 2, component: component, category: category2, scope: scope1) }
+        let!(:proposals22) { create_list(:proposal, 2, component: component, category: category2, scope: scope2) }
+        let!(:proposals31) { create_list(:proposal, 2, component: component, category: category3, scope: scope1) }
+        let!(:proposals32) { create_list(:proposal, 2, component: component, category: category3, scope: scope2) }
+        let!(:proposals) { proposals11 + proposals12 + proposals21 + proposals22 + proposals31 + proposals32 }
 
         context "when there is a filter on the component" do
           it "renders proposals of the asked component" do
@@ -72,7 +72,7 @@ module Decidim
               post "refresh_proposals", params: { filter: { component_id: component.id, category_id: category1.id, scope_id: "" } }
 
               expect(JSON.parse(response.body).size).to eq(4)
-              expect(JSON.parse(response.body).map { |proposal| proposal["id"] }).to match_array((proposals_11 + proposals_12).map(&:id))
+              expect(JSON.parse(response.body).map { |proposal| proposal["id"] }).to match_array((proposals11 + proposals12).map(&:id))
             end
           end
 
@@ -81,7 +81,7 @@ module Decidim
               post "refresh_proposals", params: { filter: { component_id: component.id, category_id: "", scope_id: scope1.id } }
 
               expect(JSON.parse(response.body).size).to eq(6)
-              expect(JSON.parse(response.body).map { |proposal| proposal["id"] }).to match_array((proposals_11 + proposals_21 + proposals_31).map(&:id))
+              expect(JSON.parse(response.body).map { |proposal| proposal["id"] }).to match_array((proposals11 + proposals21 + proposals31).map(&:id))
             end
           end
 
@@ -90,7 +90,7 @@ module Decidim
               post "refresh_proposals", params: { filter: { component_id: component.id, category_id: category3.id, scope_id: scope2.id } }
 
               expect(JSON.parse(response.body).size).to eq(2)
-              expect(JSON.parse(response.body).map { |proposal| proposal["id"] }).to match_array((proposals_32).map(&:id))
+              expect(JSON.parse(response.body).map { |proposal| proposal["id"] }).to match_array((proposals32).map(&:id))
             end
           end
         end

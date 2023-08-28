@@ -47,7 +47,7 @@ describe "Admin manages proposals slider content blocks", type: :system do
 
         click_button "Update"
 
-        expect(content_block.reload.settings.activate_filters).to eq(true)
+        expect(content_block.reload.settings.activate_filters).to be(true)
         expect(content_block.reload.settings.linked_components_id).to eq(["", proposals_component1.id.to_s, proposals_component3.id.to_s])
         expect(content_block.reload.settings.default_linked_component).to eq(proposals_component3.id.to_i)
       end
