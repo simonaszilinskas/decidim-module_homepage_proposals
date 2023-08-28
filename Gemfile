@@ -12,7 +12,8 @@ gem "decidim", "~> #{DECIDIM_VERSION}"
 gem "decidim-homepage_proposals", path: "."
 
 gem "bootsnap", "~> 1.4"
-gem "puma", ">= 4.3"
+
+gem "puma", ">= 5.6.2"
 
 group :development, :test do
   gem "byebug", "~> 11.0", platform: :mri
