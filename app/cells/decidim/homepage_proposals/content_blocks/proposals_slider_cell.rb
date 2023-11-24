@@ -54,6 +54,30 @@ module Decidim
         def selected_component_id
           @selected_component_id ||= params.dig(:filter, :component_id) || content_block_settings.default_linked_component
         end
+
+        def scopes_filter
+          options = []
+          root = linked_components.collect(&:scope).collect(&:blank?).any?
+
+          scopes = if root
+                     current_organization.scopes.top_level
+                   else
+                     linked_components.collect(&:scope).uniq
+                   end
+
+          scopes.each do |scope|
+            options_for_scope(options, scope, 0)
+          end
+          options
+        end
+
+        def options_for_scope(options, scope, level = 0)
+          options << [("--" * level) + translated_attribute(scope.name), scope.id]
+
+          scope.children.each do |child|
+            options_for_scope(options, child, level + 1)
+          end
+        end
       end
     end
   end
