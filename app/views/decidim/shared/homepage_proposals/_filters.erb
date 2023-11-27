@@ -1,33 +1,43 @@
 <%= filter_form_for filter, decidim_participatory_processes_path, id: 'filters-form' do |form| %>
-  <div class="row">
-    <div class="columns flex-v-center">
-      <p><%= I18n.t("decidim.homepage_proposals.proposal_at_a_glance.filters.intro") %></p>
-      <div>
-        <%= form.collection_select :scope_id,
-                                   scopes_filter,
-                                   :last,
-                                   :first,
-                                   root: false,
-                                   label: false,
-                                   include_blank: t("decidim.homepage_proposals.proposal_at_a_glance.filters.default_scope") %>
+  <div class="row collapse">
+    <div class="columns mediumlarge-4">
+      <div class="row collapse">
+        <p class="columns mediumlarge-6"><%= I18n.t("decidim.homepage_proposals.proposal_at_a_glance.filters.intro") %></p>
+        <div class="columns mediumlarge-6">
+          <%= form.collection_select :scope_id,
+                                     scopes_filter,
+                                     :last,
+                                     :first,
+                                     root: false,
+                                     label: false,
+                                     include_blank: t("decidim.homepage_proposals.proposal_at_a_glance.filters.default_scope") %>
+        </div>
       </div>
-      <p><%= I18n.t("decidim.homepage_proposals.proposal_at_a_glance.filters.about") %></p>
-      <div>
-        <%= form.collection_select :category_id,
-                                   categories_filter,
-                                   :last,
-                                   :first,
-                                   root: false,
-                                   label: false,
-                                   include_blank: t("decidim.homepage_proposals.proposal_at_a_glance.filters.default_categories") %>
+    </div>
+    <div class="columns mediumlarge-4">
+      <div class="row collapse medium-uncollapse">
+        <p class="columns mediumlarge-2 medium-text-center"><%= I18n.t("decidim.homepage_proposals.proposal_at_a_glance.filters.about") %></p>
+        <div class="columns mediumlarge-10">
+          <%= form.collection_select :category_id,
+                                     categories_for_select(categories_filter),
+                                     :last,
+                                     :first,
+                                     root: false,
+                                     label: false,
+                                     include_blank: t("decidim.homepage_proposals.proposal_at_a_glance.filters.default_categories") %>
+        </div>
       </div>
-      <p><%= I18n.t("decidim.homepage_proposals.proposal_at_a_glance.filters.in") %></p>
-      <div>
-        <%= form.select :component_id,
-                        options_for_default_component,
-                        label: false,
-                        selected: filter.component_id,
-                        data: { placeholder: t("decidim.homepage_proposals.proposal_at_a_glance.filters.components") } %>
+    </div>
+    <div class="columns mediumlarge-4">
+      <div class="row collapse">
+        <p class="columns mediumlarge-1 medium-text-center"><%= I18n.t("decidim.homepage_proposals.proposal_at_a_glance.filters.in") %></p>
+        <div class="columns mediumlarge-11">
+          <%= form.select :component_id,
+                          options_for_default_component,
+                          label: false,
+                          selected: filter.component_id,
+                          data: { placeholder: t("decidim.homepage_proposals.proposal_at_a_glance.filters.components") } %>
+        </div>
       </div>
     </div>
   </div>
