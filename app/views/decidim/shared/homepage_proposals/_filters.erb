@@ -2,7 +2,7 @@
   <div class="row">
     <div class="columns flex-v-center">
       <p><%= I18n.t("decidim.homepage_proposals.proposal_at_a_glance.filters.intro") %></p>
-      <div>
+      <div class="medium-2 mediumlarge-3">
         <%= cell(
               "decidim/scopes_picker",
               form,
@@ -13,7 +13,7 @@
             ) %>
       </div>
       <p><%= I18n.t("decidim.homepage_proposals.proposal_at_a_glance.filters.about") %></p>
-      <div>
+      <div class="medium-2">
         <%= form.categories_select :category_id,
                                    categories_filter,
                                    disable_parents: false,
@@ -22,7 +22,7 @@
                                    include_blank: t("decidim.homepage_proposals.proposal_at_a_glance.filters.default_categories") %>
       </div>
       <p><%= I18n.t("decidim.homepage_proposals.proposal_at_a_glance.filters.in") %></p>
-      <div>
+      <div class="medium-2 large-3">
         <%= form.select :component_id,
                         options_for_default_component,
                         label: false,
